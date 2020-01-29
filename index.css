@@ -1,0 +1,35 @@
+* {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  align: center;
+  font-family: sans-serif;
+}
+
+h1 {
+  padding: 1rem;
+}
+
+section {
+  width: 80%;
+  padding: 1rem;
+  margin: 0.5rem auto 0.5rem auto;
+  box-shadow: 0 0 0 0.1rem darkgray;
+  border-radius: 2rem;
+  background-color: gainsboro;
+}
+
+@media (prefers-color-scheme: dark) {
+  * {
+    color: white;
+  }
+
+  body {
+    background-color: #404040;
+  }
+
+  section {
+    box-shadow: 0 0 0 0.1rem black;
+    background-color: #202020;
+  }
+}

@@ -44,6 +44,19 @@
         "Ook",
         "LISP"
       ]
+    },
+    {
+      "id": "mood",
+      "text": "How are you feeling today?",
+      "type": "single-select-image",
+      "options": [
+        "angry",
+        "bored",
+        "confused",
+        "happy",
+        "sad",
+        "sick"
+      ]
     }
   ]
 }
