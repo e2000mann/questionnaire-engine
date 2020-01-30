@@ -3,7 +3,9 @@
 
 //functions
 function makeCheckboxes(question, element) {
+  const imageCheckboxes = question.type.includes("image") ? true : false;
   for (const option in question.options) {
+    let optionName = question.options[option];
     let div = document.createElement("div");
     element.appendChild(div);
     let checkBox = document.createElement("input");
@@ -11,8 +13,15 @@ function makeCheckboxes(question, element) {
     div.appendChild(checkBox);
     let label = document.createElement("label");
     div.appendChild(label);
-    label.textContent = question.options[option];
-    div.appendChild(label);
+    if (imageCheckboxes) {
+      let image = document.createElement("img");
+      image.src = `${question.id}\\${optionName}.png`;
+      image.alt = optionName;
+      image.title = optionName;
+      label.appendChild(image);
+    } else {
+      label.textContent = optionName;
+    }
   }
 }
 
@@ -30,6 +39,7 @@ request.responseType = 'json';
 request.send();
 
 request.onload = function() {
+  const button = document.getElementByTagName("button");
   // creates js object
   const questionnaire = request.response;
   let myh1 = document.createElement("h1");
