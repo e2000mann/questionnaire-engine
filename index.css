@@ -23,6 +23,13 @@ img {
   max-width: 5%;
 }
 
+button {
+  padding: 0.5rem;
+  border: none;
+  margin-top: 1rem;
+  font-size: 1rem;
+}
+
 @media (prefers-color-scheme: dark) {
   * {
     color: white;
@@ -34,6 +41,10 @@ img {
 
   section {
     box-shadow: 0 0 0 0.1rem black;
+    background-color: #202020;
+  }
+
+  button {
     background-color: #202020;
   }
 }

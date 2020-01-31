@@ -31,6 +31,10 @@ function makeTextbox(question, element) {
   element.appendChild(questionInput);
 }
 
+//Main Code
+const csvButton = document.getElementsByName("csvExport").item(0);
+const jsonButton = document.getElementsByName("jsonExport").item(0);
+
 // Open a request to get json file
 let requestURL = 'example-questionnaire.json';
 let request = new XMLHttpRequest();
@@ -39,18 +43,18 @@ request.responseType = 'json';
 request.send();
 
 request.onload = function() {
-  const button = document.getElementByTagName("button");
+
   // creates js object
   const questionnaire = request.response;
   let myh1 = document.createElement("h1");
   myh1.textContent = questionnaire.name;
-  document.body.appendChild(myh1);
+  document.body.insertBefore(myh1, csvButton);
 
   for (const question of questionnaire.questions) {
     let questionElement = document.createElement("section");
     questionElement.id = question.id;
     questionElement.classList.add(question.type);
-    document.body.appendChild(questionElement);
+    document.body.insertBefore(questionElement, csvButton);
 
     let questionTitle = document.createElement("h2");
     questionTitle.textContent = question.text;
@@ -59,3 +63,11 @@ request.onload = function() {
     question.type.includes("select") ? makeCheckboxes(question, questionElement) : makeTextbox(question, questionElement);
   }
 }
+
+csvButton.addEventListener("click", function() {
+  console.log("Hello")
+});
+
+jsonButton.addEventListener("click", function() {
+  console.log("Goodbye")
+});

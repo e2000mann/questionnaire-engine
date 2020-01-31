@@ -5,20 +5,23 @@ Last updated: 28/01/20
   - [ ] that makes it possible to fill in a questionnaire
   - [ ] that supports a linear flow of questions
     Required Types of questions
-    - [ ] text
-    - [ ] number
-    - [ ] single select
-    - [ ] multi select
+    - [x] text
+    - [x] number
+    - [x] single select
+    - [x] multi select
   - [ ] that works on mobile
 
 - [ ] Server
   - [ ] that serves the client application
-  - [ ] that uses a json file for structuring the questionnaire
+  - [x] that uses a json file for structuring the questionnaire
   - [ ] that stores the responses submitted through API
   - [ ] that supports a download of the responses in a structured way (json, csv)
+    - [x] add export buttons
+    - [ ] create functions
 
 - [ ] Accessibility
-  - [ ] light/dark mode
+  - [x] light/dark mode
+  - [ ] responsive text through whole system
 
 # Optional Features
 - [ ] ability to create questionnaire through GUI
@@ -27,6 +30,7 @@ Last updated: 28/01/20
   - [ ] Likert Scales (strongly agree -> strongly disagree scale)
   - [ ] matrices
   - [ ] sliders
-  - [ ] support for selecting images
+  - [x] support for selecting images
 - [ ] support for branching: show optional questions based on answers of previous questions
+- [ ] support for optional/required questions through boolean
 - [ ] security based on OAuth (google acc) authentication
