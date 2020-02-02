@@ -30,6 +30,12 @@ button {
   font-size: 1rem;
 }
 
+/* Finds section with a class that ends in "image"*/
+section[class$="image"]>div {
+  display: inline;
+  margin: 0.2rem;
+}
+
 @media (prefers-color-scheme: dark) {
   * {
     color: white;

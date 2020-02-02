@@ -2,25 +2,37 @@
 'use strict';
 
 //functions
+function makeObjectFromQuestionnaire() {
+  let object = {};
+
+  object.name = document.getElementsByTagName("h1")[0];
+
+  console.log(object);
+  return object;
+}
+
+function exportToJson() {
+  let object = makeObjectFromQuestionnaire();
+}
+
 function makeCheckboxes(question, element) {
-  const imageCheckboxes = question.type.includes("image") ? true : false;
+  const imageCheckboxes = question.type.includes("image");
   for (const option in question.options) {
     let optionName = question.options[option];
-    let div = document.createElement("div");
-    element.appendChild(div);
-    let checkBox = document.createElement("input");
-    checkBox.type = "checkBox";
-    div.appendChild(checkBox);
-    let label = document.createElement("label");
-    div.appendChild(label);
     if (imageCheckboxes) {
-      let image = document.createElement("img");
+      let template = document.querySelector("#image-checkbox");
+      let clone = template.content.cloneNode(true);
+      let image = clone.querySelectorAll("img")[0];
       image.src = `${question.id}\\${optionName}.png`;
       image.alt = optionName;
       image.title = optionName;
-      label.appendChild(image);
+      element.appendChild(clone);
     } else {
+      let template = document.querySelector("#text-checkbox");
+      let clone = template.content.cloneNode(true);
+      let label = clone.querySelectorAll("label")[0];
       label.textContent = optionName;
+      element.appendChild(clone);
     }
   }
 }
@@ -32,8 +44,8 @@ function makeTextbox(question, element) {
 }
 
 //Main Code
-const csvButton = document.getElementsByName("csvExport").item(0);
-const jsonButton = document.getElementsByName("jsonExport").item(0);
+const csvButton = document.getElementsByName("csvExport")[0];
+const jsonButton = document.getElementsByName("jsonExport")[0];
 
 // Open a request to get json file
 let requestURL = 'example-questionnaire.json';
@@ -68,6 +80,4 @@ csvButton.addEventListener("click", function() {
   console.log("Hello")
 });
 
-jsonButton.addEventListener("click", function() {
-  console.log("Goodbye")
-});
+jsonButton.onClick = exportToJson();
