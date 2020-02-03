@@ -18,10 +18,14 @@ Last updated: 28/01/20
   - [ ] that supports a download of the responses in a structured way (json, csv)
     - [x] add export buttons
     - [ ] create functions
+      - [ ] inputs to js object (half complete)
+      - [ ] js object to json
+      - [ ] js object to csv
 
 - [ ] Accessibility
   - [x] light/dark mode
   - [ ] responsive text through whole system
+  - [x] favicon
 
 # Optional Features
 - [ ] ability to create questionnaire through GUI

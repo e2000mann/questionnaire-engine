@@ -5,10 +5,30 @@
 function makeObjectFromQuestionnaire() {
   let object = {};
 
-  object.name = document.getElementsByTagName("h1")[0];
+  object.name = document.getElementsByTagName("h1")[0].textContent;
+
+  object.questions = [];
+  let questions = document.getElementsByTagName("section");
+
+  for (const question of questions) {
+    let info = {};
+    info.id = question.id;
+    if (question.classList.contains("select")) {
+      info.answers = findCheckedBoxes(question);
+    } else {
+      let answer = question.getElementsByTagName("input")[0];
+      info.answers = answer.value;
+    }
+
+    object.questions.push(info);
+  }
 
   console.log(object);
   return object;
+}
+
+function findCheckedBoxes(q) {
+  return;
 }
 
 function exportToJson() {
@@ -40,7 +60,11 @@ function makeCheckboxes(question, element) {
 function makeTextbox(question, element) {
   let questionInput = document.createElement("input");
   questionInput.type = question.type;
+  questionInput.value = localStorage.getItem(element.id, questionInput.value);
   element.appendChild(questionInput);
+  questionInput.addEventListener("change", function() {
+    localStorage.setItem(element.id, questionInput.value)
+  });
 }
 
 //Main Code
@@ -80,4 +104,4 @@ csvButton.addEventListener("click", function() {
   console.log("Hello")
 });
 
-jsonButton.onClick = exportToJson();
+jsonButton.addEventListener("click", exportToJson);

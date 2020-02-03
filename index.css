@@ -53,4 +53,8 @@ section[class$="image"]>div {
   button {
     background-color: #202020;
   }
+
+  input {
+    color: black;
+  }
 }
