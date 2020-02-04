@@ -37,22 +37,25 @@ function exportToJson() {
 
 function makeCheckboxes(question, element) {
   const imageCheckboxes = question.type.includes("image");
-  for (const option in question.options) {
-    let optionName = question.options[option];
-    if (imageCheckboxes) {
+  if (imageCheckboxes) {
+    for (const option of question.options) {
       let template = document.querySelector("#image-checkbox");
       let clone = template.content.cloneNode(true);
       let image = clone.querySelectorAll("img")[0];
-      image.src = `${question.id}\\${optionName}.png`;
-      image.alt = optionName;
-      image.title = optionName;
+      image.title = option;
+      image.alt = option;
+      image.src = `${question.id}\\${option}.png`;
       element.appendChild(clone);
-    } else {
-      let template = document.querySelector("#text-checkbox");
-      let clone = template.content.cloneNode(true);
-      let label = clone.querySelectorAll("label")[0];
-      label.textContent = optionName;
-      element.appendChild(clone);
+    }
+  } else {
+    let select = document.createElement("select");
+    select.multiple = question.type.includes("multi") ? true : false;
+    element.appendChild(select);
+    for (const option of question.options) {
+      let optionElement = document.createElement("option");
+      optionElement.value = option;
+      optionElement.text = option;
+      select.appendChild(optionElement);
     }
   }
 }

@@ -36,8 +36,12 @@ section[class$="image"]>div {
   margin: 0.2rem;
 }
 
+select {
+  padding: 0.2rem;
+}
+
 @media (prefers-color-scheme: dark) {
-  * {
+  h1, h2, button {
     color: white;
   }
 
