@@ -74,34 +74,34 @@ function makeTextbox(question, element) {
 const csvButton = document.getElementsByName("csvExport")[0];
 const jsonButton = document.getElementsByName("jsonExport")[0];
 
-// Open a request to get json file
-let requestURL = 'example-questionnaire.json';
-let request = new XMLHttpRequest();
-request.open('GET', requestURL);
-request.responseType = 'json';
-request.send();
+fetch('example-questionnaire.json')
+  .then(
+    function(response) {
+      //http status 200 is success code
+      if (response.status !== 200) {
+        console.log(`Error ${response.status}`);
+        return;
+      }
+      response.json().then(function(questionnaire) {
+        let myh1 = document.createElement("h1");
+        myh1.textContent = questionnaire.name;
+        document.body.insertBefore(myh1, csvButton);
 
-request.onload = function() {
+        for (const question of questionnaire.questions) {
+          let questionElement = document.createElement("section");
+          questionElement.id = question.id;
+          questionElement.classList.add(question.type);
+          document.body.insertBefore(questionElement, csvButton);
 
-  // creates js object
-  const questionnaire = request.response;
-  let myh1 = document.createElement("h1");
-  myh1.textContent = questionnaire.name;
-  document.body.insertBefore(myh1, csvButton);
+          let questionTitle = document.createElement("h2");
+          questionTitle.textContent = question.text;
+          questionElement.appendChild(questionTitle);
 
-  for (const question of questionnaire.questions) {
-    let questionElement = document.createElement("section");
-    questionElement.id = question.id;
-    questionElement.classList.add(question.type);
-    document.body.insertBefore(questionElement, csvButton);
-
-    let questionTitle = document.createElement("h2");
-    questionTitle.textContent = question.text;
-    questionElement.appendChild(questionTitle);
-
-    question.type.includes("select") ? makeCheckboxes(question, questionElement) : makeTextbox(question, questionElement);
-  }
-}
+          question.type.includes("select") ? makeCheckboxes(question, questionElement) : makeTextbox(question, questionElement);
+        }
+      })
+    }
+  )
 
 csvButton.addEventListener("click", function() {
   console.log("Hello")
