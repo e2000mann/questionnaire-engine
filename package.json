@@ -1,0 +1,24 @@
+{
+  "name": "questionnaire-engine",
+  "version": "1.0.0",
+  "description": "web programming coursework",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/up887818/questionnaire-engine.git"
+  },
+  "author": "up887818",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/up887818/questionnaire-engine/issues"
+  },
+  "homepage": "https://github.com/up887818/questionnaire-engine#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "fs": "0.0.1-security"
+  }
+}
