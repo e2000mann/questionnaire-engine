@@ -10,19 +10,34 @@ async function fetchQuestionnaire() {
 
   let myh1 = document.createElement("h1");
   myh1.textContent = questionnaire.name;
-  document.body.insertBefore(myh1, csvButton);
+  document.body.prepend(myh1);
 
   for (const question of questionnaire.questions) {
     let questionElement = document.createElement("section");
     questionElement.id = question.id;
     questionElement.classList.add(question.type);
+    question.required === "true" ? questionElement.classList.add("required");
     document.body.insertBefore(questionElement, csvButton);
 
     let questionTitle = document.createElement("h2");
     questionTitle.textContent = question.text;
     questionElement.appendChild(questionTitle);
 
-    question.type.includes("select") ? makeCheckboxes(question, questionElement) : makeTextbox(question, questionElement);
+    if (question.type.includes("image")) {
+      let imageFolder = question.images;
+
+      for (const option of question.options) {
+        let template = document.querySelector("#image-checkbox");
+        let clone = template.content.cloneNode(true);
+        let image = clone.querySelectorAll("img")[0];
+        image.title = option;
+        image.alt = option;
+        image.src = `.\\${imageFolder}\\${option}.png`;
+        questionElement.appendChild(clone);
+      }
+    } else {
+      question.type.includes("select") ? await makeSelection(question, questionElement) : makeTextbox(question, questionElement);
+    }
   }
 }
 
@@ -40,8 +55,9 @@ function makeObjectFromQuestionnaire() {
     if (question.classList.contains("select")) {
       info.answers = findCheckedBoxes(question);
     } else {
-      let answer = question.getElementsByTagName("input")[0];
+      let answer = question.querySelector("input");
       info.answers = answer.value;
+      console.log(object);
     }
 
     object.questions.push(info);
@@ -52,35 +68,33 @@ function makeObjectFromQuestionnaire() {
 }
 
 function findCheckedBoxes(q) {
-  return;
+  return "test";
 }
 
-function exportToJson() {
+async function exportToJson() {
   let object = makeObjectFromQuestionnaire();
+  let url = "/q?name=example-questionnaire&type=json";
+  const response = await fetch(url, {
+    method: 'POST'
+  });
 }
 
-function makeCheckboxes(question, element) {
-  const imageCheckboxes = question.type.includes("image");
-  if (imageCheckboxes) {
-    for (const option of question.options) {
-      let template = document.querySelector("#image-checkbox");
-      let clone = template.content.cloneNode(true);
-      let image = clone.querySelectorAll("img")[0];
-      image.title = option;
-      image.alt = option;
-      image.src = `${question.id}\\${option}.png`;
-      element.appendChild(clone);
-    }
-  } else {
-    let select = document.createElement("select");
-    select.multiple = question.type.includes("multi") ? true : false;
-    element.appendChild(select);
-    for (const option of question.options) {
-      let optionElement = document.createElement("option");
-      optionElement.value = option;
-      optionElement.text = option;
-      select.appendChild(optionElement);
-    }
+async function exportToCsv() {
+  let url = "/q?name=example-questionnaire&type=csv";
+  const response = await fetch(url, {
+    method: 'POST'
+  });
+}
+
+function makeSelection(question, element) {
+  let select = document.createElement("select");
+  select.multiple = question.type.includes("multi") ? true : false;
+  element.appendChild(select);
+  for (const option of question.options) {
+    let optionElement = document.createElement("option");
+    optionElement.value = option;
+    optionElement.text = option;
+    select.appendChild(optionElement);
   }
 }
 
@@ -98,9 +112,7 @@ function makeTextbox(question, element) {
 const csvButton = document.getElementsByName("csvExport")[0];
 const jsonButton = document.getElementsByName("jsonExport")[0];
 
-csvButton.addEventListener("click", function() {
-  console.log("Hello")
-});
+csvButton.addEventListener("click", exportToCsv);
 
 jsonButton.addEventListener("click", exportToJson);
 
