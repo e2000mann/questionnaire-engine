@@ -2,12 +2,17 @@
   margin: 0;
   padding: 0;
   text-align: center;
-  align: center;
   font-family: sans-serif;
 }
 
 h1 {
   padding: 1rem;
+}
+
+section>p {
+  color: red;
+  display: inline;
+  padding: 0.2rem;
 }
 
 section {
@@ -30,10 +35,24 @@ button {
   font-size: 1rem;
 }
 
-/* Finds section with a class that ends in "image"*/
-section[class$="image"]>div {
-  display: inline;
+section>div {
+  display: flex;
+  flex-direction: row;
   margin: 0.2rem;
+}
+
+div>label>p {
+  display: inline;
+  margin-right: 1rem;
+}
+
+section>.selected>img {
+  border: medium solid red;
+}
+
+/* Finds section with a class that ends in "image"*/
+section[class$="image"]>label>input {
+  visibility: hidden;
 }
 
 select {
@@ -41,7 +60,7 @@ select {
 }
 
 @media (prefers-color-scheme: dark) {
-  h1, h2, button {
+  h1, h2, button, label {
     color: white;
   }
 
@@ -60,5 +79,11 @@ select {
 
   input {
     color: black;
+  }
+}
+
+@media (max-width: 800px) {
+  section>div {
+    flex-direction: column;
   }
 }

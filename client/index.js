@@ -3,6 +3,7 @@
 
 //functions
 async function fetchQuestionnaire() {
+
   let url = "/q?name=example-questionnaire";
 
   let response = await fetch(url);
@@ -13,32 +14,32 @@ async function fetchQuestionnaire() {
   document.body.prepend(myh1);
 
   for (const question of questionnaire.questions) {
-    let questionElement = document.createElement("section");
-    questionElement.id = question.id;
-    questionElement.classList.add(question.type);
-    question.required === "true" ? questionElement.classList.add("required");
-    document.body.insertBefore(questionElement, csvButton);
+    let qElement = document.createElement("section");
+    qElement.id = question.id;
+    qElement.classList.add(question.type);
+    document.body.insertBefore(qElement, csvButton);
 
     let questionTitle = document.createElement("h2");
     questionTitle.textContent = question.text;
-    questionElement.appendChild(questionTitle);
+    qElement.prepend(questionTitle);
+
+    if (question.required === "true") {
+      indicateRequired(qElement);
+    }
 
     if (question.type.includes("image")) {
-      let imageFolder = question.images;
-
-      for (const option of question.options) {
-        let template = document.querySelector("#image-checkbox");
-        let clone = template.content.cloneNode(true);
-        let image = clone.querySelectorAll("img")[0];
-        image.title = option;
-        image.alt = option;
-        image.src = `.\\${imageFolder}\\${option}.png`;
-        questionElement.appendChild(clone);
-      }
+      loadImageQuestion(question, qElement);
     } else {
-      question.type.includes("select") ? await makeSelection(question, questionElement) : makeTextbox(question, questionElement);
+      question.type.includes("select") ? await makeSelection(question, qElement) : makeTextbox(question, qElement);
     }
   }
+}
+
+function indicateRequired(element) {
+  element.classList.add("required");
+  let indicator = document.createElement("p");
+  indicator.textContent = "*";
+  element.prepend(indicator);
 }
 
 function makeObjectFromQuestionnaire() {
@@ -87,15 +88,16 @@ async function exportToCsv() {
 }
 
 function makeSelection(question, element) {
-  let select = document.createElement("select");
-  select.multiple = question.type.includes("multi") ? true : false;
-  element.appendChild(select);
+  let div = document.createElement("div");
+  let template = document.querySelector("#text-checkbox");
+
   for (const option of question.options) {
-    let optionElement = document.createElement("option");
-    optionElement.value = option;
-    optionElement.text = option;
-    select.appendChild(optionElement);
+    let clone = template.content.cloneNode(true);
+    let textbox = clone.querySelectorAll("p")[0];
+    textbox.textContent = option;
+    div.appendChild(clone);
   }
+  element.appendChild(div);
 }
 
 function makeTextbox(question, element) {
@@ -108,12 +110,36 @@ function makeTextbox(question, element) {
   });
 }
 
+function loadImageQuestion(question, element) {
+  let imageFolder = `questionnaires/${question.images}`;
+  let template = document.querySelector("#image-checkbox");
+
+  for (const option of question.options) {
+    let clone = template.content.cloneNode(true);
+    let image = clone.querySelectorAll("img")[0];
+    image.title = option;
+    image.alt = option;
+    image.src = `.\\${imageFolder}\\${option}.png`;
+    let checkBox = clone.querySelectorAll("input")[0];
+    checkBox.addEventListener("click", toggleSelected);
+    element.appendChild(clone);
+  }
+}
+
+function toggleSelected(event) {
+  let element = event.target.parentElement;
+  if (!element.classList.contains("selected")) {
+    element.classList.add("selected");
+  } else {
+    element.classList.remove("selected");
+  }
+}
+
 //Main Code
 const csvButton = document.getElementsByName("csvExport")[0];
 const jsonButton = document.getElementsByName("jsonExport")[0];
 
 csvButton.addEventListener("click", exportToCsv);
-
 jsonButton.addEventListener("click", exportToJson);
 
 fetchQuestionnaire();
