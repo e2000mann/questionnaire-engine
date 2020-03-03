@@ -1,0 +1,94 @@
+:root {
+  --bg-color: gainsboro;
+  --outline: darkgray;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  font-family: sans-serif;
+}
+
+h1 {
+  padding: 1rem;
+}
+
+section>p {
+  color: red;
+  display: inline;
+  padding: 0.2rem;
+}
+
+section {
+  width: 80%;
+  padding: 1rem;
+  margin: 0.5rem auto 0.5rem auto;
+  box-shadow: 0 0 0 0.1rem var(--outline);
+  border-radius: 2rem;
+  background-color: var(--bg-color);
+}
+
+img {
+  max-width: 5%;
+}
+
+button {
+  padding: 0.5rem;
+  border: none;
+  margin-top: 1rem;
+  font-size: 1rem;
+}
+
+section>div {
+  display: flex;
+  flex-direction: row;
+  margin: 0.2rem;
+}
+
+div>label>p {
+  display: inline;
+  margin-right: 1rem;
+}
+
+section>.selected>img {
+  border: medium solid red;
+}
+
+/* Finds section with a class that ends in "image"*/
+section[class$="image"]>label>input {
+  visibility: hidden;
+}
+
+select {
+  padding: 0.2rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #202020;
+    --outline: black;
+  }
+
+  h1, h2, button, label {
+    color: white;
+  }
+
+  body {
+    background-color: #404040;
+  }
+
+  button {
+    background-color: #202020;
+  }
+
+  input {
+    color: black;
+  }
+}
+
+@media (max-width: 800px) {
+  section>div {
+    flex-direction: column;
+  }
+}

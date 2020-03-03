@@ -4,27 +4,32 @@
     {
       "id": "name",
       "text": "What is your name?",
-      "type": "text"
+      "type": "text",
+      "required": "true"
     },
     {
       "id": "quest",
       "text": "What is your quest?",
-      "type": "text"
+      "type": "text",
+      "required": "true"
     },
     {
       "id": "col",
       "text": "What is your favourite colour?",
-      "type": "text"
+      "type": "text",
+      "required": "false"
     },
     {
       "id": "velo",
       "text": "What is the air-speed velocity of an unladen swallow?",
-      "type": "number"
+      "type": "number",
+      "required": "false"
     },
     {
       "id": "lord",
       "text": "Which is the best lord?",
       "type": "single-select",
+      "required": "true",
       "options": [
         "Lord of the Rings",
         "Lord of the Flies",
@@ -36,6 +41,7 @@
       "id": "langs",
       "text": "Which computer languages have you used?",
       "type": "multi-select",
+      "required": "false",
       "options": [
         "JavaScript",
         "Java",
@@ -49,6 +55,8 @@
       "id": "mood",
       "text": "How are you feeling today?",
       "type": "single-select-image",
+      "required": "false",
+      "images": "example-questionnaire/mood",
       "options": [
         "angry",
         "bored",

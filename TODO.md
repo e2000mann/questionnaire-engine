@@ -2,7 +2,7 @@ Last updated: 28/01/20
 
 # Core Features
 - [ ] Client Application for participants
-  - [ ] that makes it possible to fill in a questionnaire
+  - [x] that makes it possible to fill in a questionnaire
   - [ ] that supports a linear flow of questions
     Required Types of questions
     - [x] text
@@ -29,6 +29,7 @@ Last updated: 28/01/20
 
 # Optional Features
 - [ ] ability to create questionnaire through GUI
+  - [x] create.html created
 - [ ] page that aggregates results and shows them via graphs, averages, etc
 - [ ] Support for more complex types of questions:
   - [ ] Likert Scales (strongly agree -> strongly disagree scale)
