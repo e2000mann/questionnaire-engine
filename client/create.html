@@ -6,12 +6,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Create Questionnaire</title>
-  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="../index.css">
 </head>
 
 <body>
-  <button type="button" name="addQuestion"></button>
-  <script src="script.js"></script>
+  <button type="button" name="addQuestion">Add Question</button>
+  <button type="button" name="submitQuestionnaire">Submit</button>
+  <!-- type = "module" allows for input/export to be used in js file -->
+  <script src="../js/create.js" type="module"></script>
 </body>
 
 <!-- templates -->
@@ -27,6 +29,25 @@
     <input type="checkbox"></input>
     <img></img>
   </label>
+</template>
+
+<template id="question-form">
+  <section>
+    <h2>New Question</h2>
+    <label>
+      ID:
+      <input type="text"></input>
+    </label>
+    <label>
+      Question:
+      <input type="text"></input>
+    </label>
+    <label>
+      Required:
+      <input type="checkbox"></input>
+    </label>
+    <button type="button" name="add">Add Question</button>
+  </section>
 </template>
 
 </html>

@@ -64,6 +64,10 @@ select {
   padding: 0.2rem;
 }
 
+label {
+  display: block;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --bg-color: #202020;
