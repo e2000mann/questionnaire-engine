@@ -6,13 +6,13 @@
 
 export function createSection(q) {
 
-  let csvButton = document.getElementsByName("csvExport")[0];
-  let qElement = document.createElement("section");
+  const csvButton = document.getElementsByName("csvExport")[0];
+  const qElement = document.createElement("section");
   qElement.id = q.id;
   qElement.classList.add(q.type);
   document.body.insertBefore(qElement, csvButton);
 
-  let qTitle = document.createElement("h2");
+  const qTitle = document.createElement("h2");
   qTitle.textContent = q.text;
   qElement.prepend(qTitle);
 
@@ -39,22 +39,22 @@ function createInput(q, element) {
 
 function indicateRequired(element) {
   element.classList.add("required");
-  let indicator = document.createElement("p");
+  const indicator = document.createElement("p");
   indicator.textContent = "*";
   element.prepend(indicator);
 }
 
 function makeSelection(question, element) {
-  let div = document.createElement("div");
-  let template = document.querySelector("#text-checkbox");
+  const template = document.querySelector("#text-checkbox");
 
   for (const option of question.options) {
     let clone = template.content.cloneNode(true);
     let textbox = clone.querySelectorAll("p")[0];
     textbox.textContent = option;
-    div.appendChild(clone);
+    let checkBox = clone.querySelectorAll("input")[0];
+    checkBox.addEventListener("click", toggleSelected);
+    element.appendChild(clone);
   }
-  element.appendChild(div);
 }
 
 
@@ -86,10 +86,44 @@ function loadImageQuestion(question, element) {
 }
 
 function toggleSelected(event) {
-  let element = event.target.parentElement;
-  if (!element.classList.contains("selected")) {
-    element.classList.add("selected");
+  let targetEle = event.target.parentElement;
+  let targetParent = targetEle.parentElement;
+  if (!targetEle.classList.contains("selected")) {
+    let numSelected = numberSelected(targetParent);
+    console.log(targetParent.classList);
+    if (targetParent.classList.contains("multi") || numSelected === 0) {
+      targetEle.classList.add("selected");
+    } else {
+      if (numSelected > 0) {
+        let selectedEle = targetParent.querySelector(".selected");
+        selectedEle.classList.remove("selected");
+        targetEle.classList.add("selected");
+      }
+    }
   } else {
-    element.classList.remove("selected");
+    targetEle.classList.remove("selected");
+  }
+
+  if (!targetParent.classList.contains("image")) {
+    correctCheckboxes(targetParent);
+  }
+}
+
+function numberSelected(section) {
+  let options = section.getElementsByTagName("label");
+  let num = 0;
+  for (const option of options) {
+    if (option.classList.contains("selected")) {
+      num++;
+    }
+  }
+  return num;
+}
+
+function correctCheckboxes(section) {
+  let options = section.getElementsByTagName("label");
+  for (const option of options) {
+    let optionCheckbox = option.firstElementChild;
+    optionCheckbox.checked = option.classList.contains("selected");
   }
 }

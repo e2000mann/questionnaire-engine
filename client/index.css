@@ -46,7 +46,7 @@ section>div {
   margin: 0.2rem;
 }
 
-div>label>p {
+label>p {
   display: inline;
   margin-right: 1rem;
 }
