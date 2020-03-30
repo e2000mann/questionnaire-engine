@@ -66,6 +66,18 @@
         "sick",
         "sleepy"
       ]
+    },
+    {
+      "id": "fun",
+      "text": "On a 1 to 5 scale how fun is this quiz?",
+      "type": "likert-scale-numbers",
+      "required": "false"
+    },
+    {
+      "id" : "satisfied",
+      "text" : "How satisfied are you?",
+      "type": "likert-scale-values",
+      "required": "false"
     }
   ]
 }

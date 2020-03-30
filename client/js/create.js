@@ -3,7 +3,8 @@
 
 // imports createSection function from htmlgenerator.js
 import {
-  createSection
+  createSection,
+  fetchQuestionnaire
 } from './htmlgenerator.js';
 
 // functions
@@ -16,12 +17,13 @@ function addTitle(name) {
 
 function createQuestionInput() {
   console.log("add question");
+  let buttons = document.querySelector(".buttons");
   let template = document.querySelector("#question-form");
   let clone = template.content.cloneNode(true);
   let button = clone.childNodes[1].lastChild.previousSibling;
   console.log(button);
   button.addEventListener("click", sayHi);
-  document.body.insertBefore(clone, addQuestion);
+  document.body.insertBefore(clone, buttons);
 }
 
 function sayHi() {
@@ -34,4 +36,4 @@ const addQuestion = document.getElementsByName("addQuestion")[0];
 
 addQuestion.addEventListener("click", createQuestionInput);
 
-addTitle(name);
+localStorage.getItem("edit-mode") ? fetchQuestionnaire() : addTitle(name);

@@ -12,7 +12,7 @@ Last updated: 28/01/20
   - [ ] that works on mobile
 
 - [ ] Server
-  - [ ] that serves the client application
+  - [x] that serves the client application
   - [x] that uses a json file for structuring the questionnaire
   - [ ] that stores the responses submitted through API
   - [ ] that supports a download of the responses in a structured way (json, csv)
@@ -32,10 +32,11 @@ Last updated: 28/01/20
   - [x] create.html created
 - [ ] page that aggregates results and shows them via graphs, averages, etc
 - [ ] Support for more complex types of questions:
-  - [ ] Likert Scales (strongly agree -> strongly disagree scale)
+  - [x] Likert Scales (strongly agree -> strongly disagree scale)
   - [ ] matrices
   - [ ] sliders
   - [x] support for selecting images
 - [ ] support for branching: show optional questions based on answers of previous questions
 - [ ] support for optional/required questions through boolean
 - [ ] security based on OAuth (google acc) authentication
+  - [ ] check if user is owner of questionnaire based on their email address

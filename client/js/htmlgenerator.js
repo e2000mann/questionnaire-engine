@@ -5,12 +5,13 @@
 // this is because these functions are required in both load.js and create.js
 
 export function createSection(q) {
-
-  const csvButton = document.getElementsByName("csvExport")[0];
+  const buttons = document.querySelector(".buttons");
+  // let template = document.querySelector("#section");
+  // const qElement = template.content.cloneNode(true);
   const qElement = document.createElement("section");
   qElement.id = q.id;
   qElement.classList.add(q.type);
-  document.body.insertBefore(qElement, csvButton);
+  document.body.insertBefore(qElement, buttons);
 
   const qTitle = document.createElement("h2");
   qTitle.textContent = q.text;
@@ -25,13 +26,17 @@ export function createSection(q) {
 
 
 function createInput(q, element) {
-  if (q.type.includes("image")) {
-    loadImageQuestion(q, element);
-  } else {
-    if (q.type.includes("select")) {
-      makeSelection(q, element);
+  if (q.type.includes("select")) {
+    if (q.type.includes("image")) {
+      loadImageQuestion(q, element);
     } else {
-      makeTextbox(q, element);
+      makeSelection(q, element);
+    }
+  } else {
+    if (q.type.includes("likert-scale")) {
+      createLikertScale(q, element);
+    } else {
+      makeTextbox(q, element)
     }
   }
 }
@@ -54,6 +59,38 @@ function makeSelection(question, element) {
     let checkBox = clone.querySelectorAll("input")[0];
     checkBox.addEventListener("click", toggleSelected);
     element.appendChild(clone);
+  }
+}
+
+function createLikertScale(question, element) {
+  const template = document.querySelector("#likert-scale");
+
+  let clone = template.content.cloneNode(true);
+
+  let labels = clone.firstElementChild.getElementsByTagName("label");
+
+  if (question.type.includes("numbers")) {
+    fillLabelValues(labels, [1, 2, 3, 4, 5]);
+  } else {
+    fillLabelValues(labels, ["Very Unsatisfied",
+      "Unsatisfied",
+      "Neutral",
+      "Satisfied",
+      "Very Satisfied"
+    ]);
+  }
+
+  element.appendChild(clone);
+}
+
+function fillLabelValues(labels, values) {
+  for (let i = 0; i <= 4; i++) {
+    let textBox = document.createElement("p");
+    textBox.textContent = values[i];
+    labels[i].prepend(textBox);
+
+    let checkBox = labels[i].querySelectorAll("input")[0];
+    checkBox.addEventListener("click", toggleSelected);
   }
 }
 
@@ -126,4 +163,19 @@ function correctCheckboxes(section) {
     let optionCheckbox = option.firstElementChild;
     optionCheckbox.checked = option.classList.contains("selected");
   }
+}
+
+export async function fetchQuestionnaire() {
+  let name = localStorage.getItem("questionnaire-name");
+
+  let url = `/q?name=${name}`;
+
+  let response = await fetch(url);
+  const questionnaire = await response.json();
+
+  let myh1 = document.createElement("h1");
+  myh1.textContent = questionnaire.name;
+  document.body.prepend(myh1);
+
+  questionnaire.questions.forEach(createSection);
 }

@@ -10,13 +10,21 @@
 </head>
 
 <body>
-  <button type="button" name="addQuestion">Add Question</button>
-  <button type="button" name="submitQuestionnaire">Submit</button>
+  <section class="buttons">
+    <button type="button" name="addQuestion">Add Question</button>
+    <button type="button" name="submitQuestionnaire">Submit</button>
+  </section>
   <!-- type = "module" allows for input/export to be used in js file -->
   <script src="../js/create.js" type="module"></script>
 </body>
 
 <!-- templates -->
+<template id="section">
+  <section>
+    <button type="button" name="delete">Delete Question</button>
+  </section>
+</template>
+
 <template id="text-checkbox">
   <label>
     <input type="checkbox"></input>
@@ -29,6 +37,27 @@
     <input type="checkbox"></input>
     <img></img>
   </label>
+</template>
+
+<template id="likert-scale">
+  <!-- can either be used 1-5 or "very unsatisfied"-"very satisfied"-->
+  <div>
+    <label>
+      <input type="checkbox"></input>
+    </label>
+    <label>
+      <input type="checkbox"></input>
+    </label>
+    <label>
+      <input type="checkbox"></input>
+    </label>
+    <label>
+      <input type="checkbox"></input>
+    </label>
+    <label>
+      <input type="checkbox"></input>
+    </label>
+  </div>
 </template>
 
 <template id="question-form">

@@ -3,24 +3,24 @@
 
 // imports createSection function from htmlgenerator.js
 import {
-  createSection
+  fetchQuestionnaire
 } from './htmlgenerator.js';
 
 //functions
-async function fetchQuestionnaire() {
-  let name = localStorage.getItem("questionnaire-name");
-
-  let url = `/q?name=${name}`;
-
-  let response = await fetch(url);
-  const questionnaire = await response.json();
-
-  let myh1 = document.createElement("h1");
-  myh1.textContent = questionnaire.name;
-  document.body.prepend(myh1);
-
-  questionnaire.questions.forEach(createSection);
-}
+// async function fetchQuestionnaire() {
+//   let name = localStorage.getItem("questionnaire-name");
+//
+//   let url = `/q?name=${name}`;
+//
+//   let response = await fetch(url);
+//   const questionnaire = await response.json();
+//
+//   let myh1 = document.createElement("h1");
+//   myh1.textContent = questionnaire.name;
+//   document.body.prepend(myh1);
+//
+//   questionnaire.questions.forEach(createSection);
+// }
 
 function makeObjectFromQuestionnaire() {
   let object = {};
@@ -70,11 +70,47 @@ async function exportToCsv() {
   });
 }
 
-//Main Code
-const csvButton = document.getElementsByName("csvExport")[0];
-const jsonButton = document.getElementsByName("jsonExport")[0];
+function initFB() {
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId: '710291289713662',
+      autoLogAppEvents: true,
+      xfbml: true,
+      version: 'v6.0'
+    });
+  };
+}
 
-csvButton.addEventListener("click", exportToCsv);
-jsonButton.addEventListener("click", exportToJson);
+function shareFB() {
+  let questionnaireName = document.getElementsByTagName("h1")[0];
+  let url = window.location.href;
 
-fetchQuestionnaire();
+  FB.ui({
+    method: 'share',
+    href: url,
+    quote: `${findRandomQuestion} Answer this and more in this questionnaire!`
+  }, function(response) {});
+}
+
+//Code to Run when page loads
+function loadFunct() {
+  //buttons
+  const buttons = document.getElementsByTagName("button");
+
+  const csvButton = buttons[0];
+  const jsonButton = buttons[1];
+  const shareButton = buttons[2];
+
+  //initialise APIs
+  initFB();
+
+  //setting button actions
+  csvButton.addEventListener("click", exportToCsv);
+  jsonButton.addEventListener("click", exportToJson);
+  shareButton.addEventListener("click", shareFB);
+
+  //load questionnaire html
+  fetchQuestionnaire();
+}
+
+window.addEventListener("load", loadFunct);

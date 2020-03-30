@@ -10,12 +10,26 @@
 </head>
 
 <body>
-  <button type="button" name="csvExport">Export as CSV</button>
-  <button type="button" name="jsonExport">Export as JSON</button>
+  <!-- Scripts -->
+  <!-- APIs -->
+  <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
+  <!-- Custom Code -->
   <script src="../js/load.js" type="module"></script>
+
+  <!-- Buttons -->
+  <section class="exportButtons">
+    <button type="button" name="csvExport">Export as CSV</button>
+    <button type="button" name="jsonExport">Export as JSON</button>
+  </section>
+  <button type="button" name="fbShare">Share on Facebook!</button>
 </body>
 
 <!-- templates -->
+<template id="section">
+  <section>
+  </section>
+</template>
+
 <template id="text-checkbox">
   <label>
     <input type="checkbox"></input>
@@ -28,6 +42,23 @@
     <input type="checkbox"></input>
     <img></img>
   </label>
+</template>
+
+<template id="likert-scale">
+  <!-- can either be used 1-5 or "very unsatisfied"-"very satisfied"-->
+  <div>
+    <label><input type="checkbox"></input></label>
+    <label><input type="checkbox"></input></label>
+    <label>
+      <input type="checkbox"></input>
+    </label>
+    <label>
+      <input type="checkbox"></input>
+    </label>
+    <label>
+      <input type="checkbox"></input>
+    </label>
+  </div>
 </template>
 
 </html>

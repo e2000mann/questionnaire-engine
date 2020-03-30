@@ -55,6 +55,10 @@ section>.selected>img {
   border: medium solid red;
 }
 
+section[class$="likert-scale"]>div>label {
+  display: inline;
+}
+
 /* Finds section with a class that ends in "image"*/
 section[class$="image"]>label>input {
   visibility: hidden;
