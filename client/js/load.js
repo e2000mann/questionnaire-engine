@@ -1,6 +1,12 @@
 //up887818
 'use strict';
 
+// imports FB initialisation code from apicode.js
+// (no need for google api)
+import {
+  initFB
+} from './apicode.js';
+
 // imports createSection function from htmlgenerator.js
 import {
   fetchQuestionnaire
@@ -70,16 +76,7 @@ async function exportToCsv() {
   });
 }
 
-function initFB() {
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId: '710291289713662',
-      autoLogAppEvents: true,
-      xfbml: true,
-      version: 'v6.0'
-    });
-  };
-}
+
 
 function shareFB() {
   let questionnaireName = document.getElementsByTagName("h1")[0];

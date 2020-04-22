@@ -1,0 +1,31 @@
+<!-- 679360714828-uc1klbjb7vir1dangcggn499u5stifdj.apps.googleusercontent.com -->
+
+<!doctype html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Create/Edit Questionnaire</title>
+  <link rel="stylesheet" href="../index.css">
+</head>
+
+<body>
+  <!-- Scripts -->
+  <!-- APIs -->
+  <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+  <h1>Questionnaire Engine - Create/Edit</h1>
+
+  <p>Please sign into Google or Facebook to continue.</p>
+
+  <!-- Login buttons -->
+  <div class="g-signin2" data-onsuccess="onSignIn"></div>
+  <div class="fb-login-button" data-width="" data-size="medium" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="true"></div>
+
+  <section class="loginOnly">
+    <input type="text" placeholder="Questionnaire Name">
+    <button type="button" name="create">Create Questionnaire</button>
+    <button type="button" name="edit">Edit Questionnaire</button>
+  </section>
+</body>

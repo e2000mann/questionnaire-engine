@@ -1,66 +1,52 @@
 'use strict';
 
-async function checkQuestionnaireExists() {
-  let name = inputBox.value;
+async function checkQuestionnaireExists(name) {
   localStorage.setItem("questionnaire-name", name);
-  // console.log(localStorage.getItem("questionnaire-name"));
+  // Default value - assume questionnaire does not exist.
+  // Otherwise this will cause errors in later code.
   let exists = "false";
-  let existsBool = false;
-  // temp value
   if (!(name === "")) {
-    let url = `/check?name=${name}`;
-
-    let response = await fetch(url);
+    let response = await fetch(`/check?name=${name}`);
     exists = await response.text();
   }
-  if (exists === "true") {
-    existsBool = true;
-  } else {
-    existsBool = false;
-  }
+
+  //Converts string output to bool
+  const existsBool = (exists === "true");
+
   return existsBool;
 }
 
-async function createQuestionnaire() {
-  let existsBool = await checkQuestionnaireExists();
-  if (!existsBool) {
-    localStorage.setItem("edit-mode", false);
-    // href - emulates mouse click. allows user to press back button
-    window.location.href = "../create.html";
-  } else {
-    let errorBox = document.querySelector("#errorBox");
-    errorBox.textContent = "That Questionnaire already exists.";
+function loadQuestionnaire() {
+  //Prompt user to give input
+  const userInput = window.prompt("Type in the name of the questionnaire:");
+
+  // userInput = null means they cancelled prompt. No point in checking further
+  if (userInput !== null) {
+    // Returns bool value
+    const existsBool = checkQuestionnaireExits(userInput);
+    if (existsBool) {
+      //checkQuestionnaireExists adds userInput to localStorage. This will
+      //be used to access the correct questionnaire. Just redirect to load page.
+      window.location.href = "../load.html";
+    } else {
+      //User has typed invalid questionnaire name.
+      const errorBox = document.querySelector("#errorBox");
+      errorBox.textContent = "That Questionnaire does not exist.";
+    }
   }
 }
 
-async function editQuestionnaire() {
-  let existsBool = await checkQuestionnaireExists();
-  if (existsBool) {
-    localStorage.setItem("edit-mode", true);
-    window.location.href = "../create.html";
-  } else {
-    let errorBox = document.querySelector("#errorBox");
-    errorBox.textContent = "That Questionnaire does not exist.";
-  }
+function addButtons() {
+  // Getting all buttons in an array
+  const buttons = document.getElementsByTagName("button");
+
+  //Button 0 - "Create/Edit Questionnaire"
+  buttons[0].addEventListener("click", function() {
+    window.location.href = "../login.html"
+  });
+
+  //Button 1 - "Load Questionnaire"
+  buttons[1].addEventListener("click", loadQuestionnaire);
 }
 
-async function loadQuestionnaire() {
-  let existsBool = await checkQuestionnaireExists();
-  if (existsBool) {
-    window.location.href = "../load.html";
-  } else {
-    let errorBox = document.querySelector("#errorBox");
-    errorBox.textContent = "That Questionnaire does not exist.";
-  }
-}
-
-const inputBox = document.querySelector("#inputBox");
-
-const createButton = document.getElementsByName("create")[0];
-createButton.addEventListener("click", createQuestionnaire);
-
-const editButton = document.getElementsByName("edit")[0];
-editButton.addEventListener("click", editQuestionnaire);
-
-const loadButton = document.getElementsByName("load")[0];
-loadButton.addEventListener("click", loadQuestionnaire);
+window.addEventListener("load", addButtons);

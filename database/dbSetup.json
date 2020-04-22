@@ -1,9 +1,0 @@
-{
-  "queries": [
-    "create database up887818;",
-    "\\\c up887818",
-    "create table questionnaires (q_id serial primary key, q_name varchar(50) not \\null, creation_time date not \\null)",
-    "create table authors ( author_id serial primary key, author_email varchar(50) not \\null)",
-    "create table authorisedusers( q_id int not \\null, author_id int not \\null, foreign key (q_id) references questionnaires(q_id), foreign key (author_id) references authors(author_id))"
-  ]
-}

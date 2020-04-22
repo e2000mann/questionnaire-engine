@@ -5,13 +5,14 @@
   "main": "server.js",
   "dependencies": {
     "express": "^4.17.1",
-    "fs": "^0.0.1-security"
+    "fs": "^0.0.1-security",
+    "pg": "^8.0.2"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "setup" : "node setup.js"
+    "setup": "createdb up887818web && psql up887818web < setup.sql"
   },
   "repository": {
     "type": "git",

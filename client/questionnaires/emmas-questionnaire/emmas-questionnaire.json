@@ -1,0 +1,83 @@
+{
+  "name": "Example Questionnaire",
+  "questions": [
+    {
+      "id": "name",
+      "text": "What is your name?",
+      "type": "text",
+      "required": "true"
+    },
+    {
+      "id": "quest",
+      "text": "What is your quest?",
+      "type": "text",
+      "required": "true"
+    },
+    {
+      "id": "col",
+      "text": "What is your favourite colour?",
+      "type": "text",
+      "required": "false"
+    },
+    {
+      "id": "velo",
+      "text": "What is the air-speed velocity of an unladen swallow?",
+      "type": "number",
+      "required": "false"
+    },
+    {
+      "id": "lord",
+      "text": "Which is the best lord?",
+      "type": "single-select",
+      "required": "true",
+      "options": [
+        "Lord of the Rings",
+        "Lord of the Flies",
+        "Lord of the Dance",
+        "Lorde"
+      ]
+    },
+    {
+      "id": "langs",
+      "text": "Which computer languages have you used?",
+      "type": "multi-select",
+      "required": "false",
+      "options": [
+        "JavaScript",
+        "Java",
+        "C",
+        "Python",
+        "Ook",
+        "LISP"
+      ]
+    },
+    {
+      "id": "mood",
+      "text": "How are you feeling today?",
+      "type": "single-select-image",
+      "required": "false",
+      "images": "example-questionnaire/mood",
+      "options": [
+        "angry",
+        "bored",
+        "confused",
+        "happy",
+        "sad",
+        "sick",
+        "sleepy"
+      ]
+    },
+    {
+      "id": "fun",
+      "text": "On a 1 to 5 scale how fun is this quiz?",
+      "type": "likert-scale-numbers",
+      "required": "false"
+    },
+    {
+      "id" : "satisfied",
+      "text" : "How satisfied are you?",
+      "type": "likert-scale-values",
+      "required": "false"
+    }
+  ]
+}
