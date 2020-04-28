@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS up887818 (
   email text
 );
 
-INSERT INTO up887818 (name, email) VALUES
-('example-questionnaire', 'rjb@port.ac.uk'),
-('emmas-questionnaire', 'up887818@myport.ac.uk');
+-- pre generated uuids for testing
+INSERT INTO up887818 (id, name, email) VALUES
+('4d87e050-e74f-4de7-a144-6c76dac3622e', 'example-questionnaire', 'rjb@port.ac.uk'),
+('3cdb2fea-4619-46cc-8b22-223f42f97ada', 'emmas-questionnaire', 'up887818@myport.ac.uk');

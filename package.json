@@ -10,7 +10,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "qunit test.js",
     "start": "node server.js",
     "setup": "createdb up887818web && psql up887818web < setup.sql"
   },

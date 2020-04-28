@@ -1,29 +1,36 @@
-<!-- 679360714828-uc1klbjb7vir1dangcggn499u5stifdj.apps.googleusercontent.com -->
-
 <!doctype html>
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-signin-client_id" content="679360714828-uc1klbjb7vir1dangcggn499u5stifdj.apps.googleusercontent.com">
   <title>Create/Edit Questionnaire</title>
   <link rel="stylesheet" href="../index.css">
+  <link rel="stylesheet" href="../login.css">
 </head>
 
 <body>
   <!-- Scripts -->
   <!-- APIs -->
-  <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
+  <!-- Facebook -->
+  <div id="fb-root"></div>
+  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v6.0&appId=710291289713662&autoLogAppEvents=1"></script>
+  <!-- Google -->
   <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <!-- Own Code -->
+  <script src="../js/login.js"></script>
 
   <h1>Questionnaire Engine - Create/Edit</h1>
 
   <p>Please sign into Google or Facebook to continue.</p>
 
   <!-- Login buttons -->
-  <div class="g-signin2" data-onsuccess="onSignIn"></div>
-  <div class="fb-login-button" data-width="" data-size="medium" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="true"></div>
+  <section class="buttons">
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    <div class="fb-login-button" data-size="medium" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" data-width=""></div>
+  </section>
 
-  <section class="loginOnly">
+  <section class="loginOnly" hidden="true">
     <input type="text" placeholder="Questionnaire Name">
     <button type="button" name="create">Create Questionnaire</button>
     <button type="button" name="edit">Edit Questionnaire</button>

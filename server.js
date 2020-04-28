@@ -50,6 +50,16 @@ async function sendQuery(query, output) {
   }
 }
 
+async function getUsersQuestionnaires(req, res) {
+  const email = req.query.email;
+
+  const query = {
+    text: 'SELECT id, name FROM up887818web WHERE email = $1',
+    values: [email],
+  }
+
+  let results = sendQuery(query, "all");
+}
 
 function checkQuestionnaireExists(req, res) {
   let result = fs.existsSync(`client/questionnaires/${req.query.name}`);
@@ -77,6 +87,9 @@ function uploadResults(req, res) {
     console.log(`json exported at ${d.toUTCString()}`);
   }
 }
+
+//login
+app.get('/getQuestionnaires', getUsersQuestionnaires);
 
 app.get('/check', checkQuestionnaireExists);
 
