@@ -59,24 +59,91 @@ function findCheckedBoxes(q) {
   return "test";
 }
 
-
-async function exportToJson() {
-  let object = makeObjectFromQuestionnaire();
-  let url = "/q?name=example-questionnaire&type=json";
-  const response = await fetch(url, {
-    method: 'POST'
-  });
+// this function is the same as the "noneSelected" function in htmlgenerator.js
+function checkBoxAnswers(section) {
+  const options = section.getElementsByTagName("label");
+  let selected = [];
+  for (const option of options) {
+    if (option.classList.contains("selected")) {
+      const value = option.getElementsByTagName("p")[0];
+      selected.push(value.textContent);
+    }
+  }
+  return selected;
 }
 
 
-async function exportToCsv() {
-  let url = "/q?name=example-questionnaire&type=csv";
-  const response = await fetch(url, {
-    method: 'POST'
-  });
+
+function textOrNumber(q) {
+  return q.classList.contains("text") || q.classList.contains("number");
 }
 
+function checkIfRequiredComplete() {
+  // finds questions which have required in classlist
+  const requiredQuestions = document.querySelectorAll('[class$="required"]');
 
+  for (const question of requiredQuestions) {
+    // text/number questions
+    if (textOrNumber(question)) {
+      let inputBox = question.querySelector("input");
+      if (inputBox.value == "") {
+        window.alert("This question is required");
+        question.focus();
+        return false;
+      }
+    } // check boxes
+    else {
+      if (checkBoxAnswers(question).length == 0) {
+        window.alert("This question is required");
+        question.focus();
+        return false;
+      }
+    }
+  }
+  // if hasn't returned yet all required questions are filled
+  return true;
+}
+
+function getAnswers() {
+  const questions = document.getElementsByTagName("section");
+  let answers = [];
+
+  for (const question of questions) {
+    let answer = {};
+    answer.id = question.id;
+
+    if (textOrNumber(question)) {
+      let inputBox = question.querySelector("input");
+      answer.answer = inputBox.value;
+    } else {
+      let selected = checkBoxAnswers(question);
+      answer.answer = selected;
+    }
+    answers.push(answer);
+  }
+
+  return answers;
+}
+
+async function submit() {
+  const complete = checkIfRequiredComplete();
+  if (complete) {
+    const answers = {
+      answers: getAnswers()
+    };
+    console.log(JSON.stringify(answers));
+
+    const title = document.getElementsByTagName("h1")[0].textContent;
+
+    let url = `/submit?q=${title}&answers=${JSON.stringify(answers)}`;
+    let response = await fetch(url);
+    if (response.ok) {
+      window.alert("Thanks for your participation!");
+    } else {
+      window.alert("There has been an error. Please try again later.");
+    }
+  }
+}
 
 function shareFB() {
   let questionnaireName = document.getElementsByTagName("h1")[0];
@@ -94,16 +161,14 @@ function loadFunct() {
   //buttons
   const buttons = document.getElementsByTagName("button");
 
-  const csvButton = buttons[0];
-  const jsonButton = buttons[1];
-  const shareButton = buttons[2];
+  const submitButton = buttons[0];
+  const shareButton = buttons[1];
 
   //initialise APIs
   initFB();
 
   //setting button actions
-  csvButton.addEventListener("click", exportToCsv);
-  jsonButton.addEventListener("click", exportToJson);
+  submitButton.addEventListener("click", submit);
   shareButton.addEventListener("click", shareFB);
 
   //load questionnaire html

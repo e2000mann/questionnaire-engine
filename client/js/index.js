@@ -23,7 +23,7 @@ function loadQuestionnaire() {
   // userInput = null means they cancelled prompt. No point in checking further
   if (userInput !== null) {
     // Returns bool value
-    const existsBool = checkQuestionnaireExits(userInput);
+    const existsBool = checkQuestionnaireExists(userInput);
     if (existsBool) {
       //checkQuestionnaireExists adds userInput to localStorage. This will
       //be used to access the correct questionnaire. Just redirect to load page.

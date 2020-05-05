@@ -56,8 +56,10 @@ function makeSelection(question, element) {
     let clone = template.content.cloneNode(true);
     let textbox = clone.querySelectorAll("p")[0];
     textbox.textContent = option;
-    let checkBox = clone.querySelectorAll("input")[0];
-    checkBox.addEventListener("click", toggleSelected);
+    if (question.type.includes("single")) {
+      let checkBox = clone.querySelectorAll("input")[0];
+      checkBox.addEventListener("click", toggleSelected);
+    }
     element.appendChild(clone);
   }
 }
@@ -116,26 +118,25 @@ function loadImageQuestion(question, element) {
     image.title = option;
     image.alt = option;
     image.src = `.\\${imageFolder}\\${option}.png`;
-    let checkBox = clone.querySelectorAll("input")[0];
-    checkBox.addEventListener("click", toggleSelected);
+    if (question.type.includes("single")) {
+      let checkBox = clone.querySelectorAll("input")[0];
+      checkBox.addEventListener("click", toggleSelected);
+    }
     element.appendChild(clone);
   }
 }
 
 function toggleSelected(event) {
+  console.log("checking");
   let targetEle = event.target.parentElement;
   let targetParent = targetEle.parentElement;
   if (!targetEle.classList.contains("selected")) {
-    let numSelected = numberSelected(targetParent);
-    console.log(targetParent.classList);
-    if (targetParent.classList.contains("multi") || numSelected === 0) {
+    if (noneSelected(targetParent)) {
       targetEle.classList.add("selected");
     } else {
-      if (numSelected > 0) {
-        let selectedEle = targetParent.querySelector(".selected");
-        selectedEle.classList.remove("selected");
-        targetEle.classList.add("selected");
-      }
+      let selectedEle = targetParent.querySelector(".selected");
+      selectedEle.classList.remove("selected");
+      targetEle.classList.add("selected");
     }
   } else {
     targetEle.classList.remove("selected");
@@ -146,15 +147,14 @@ function toggleSelected(event) {
   }
 }
 
-function numberSelected(section) {
+function noneSelected(section) {
   let options = section.getElementsByTagName("label");
-  let num = 0;
   for (const option of options) {
     if (option.classList.contains("selected")) {
-      num++;
+      return false;
     }
   }
-  return num;
+  return true;
 }
 
 function correctCheckboxes(section) {

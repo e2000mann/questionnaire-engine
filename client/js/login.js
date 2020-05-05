@@ -13,6 +13,8 @@ function onSignIn(googleuser) {
 }
 
 async function loadItems(email) {
+  // add email to sessionstorage
+  sessionStorage.setItem("user-email", email);
   // show the items that is only available post-login
   const loginOnly = document.querySelector(".loginOnly");
   loginOnly.hidden = false;

@@ -17,11 +17,10 @@
   <script src="../js/load.js" type="module"></script>
 
   <!-- Buttons -->
-  <section class="exportButtons">
-    <button type="button" name="csvExport">Export as CSV</button>
-    <button type="button" name="jsonExport">Export as JSON</button>
-  </section>
-  <button type="button" name="fbShare">Share on Facebook!</button>
+  <div class="buttons">
+    <button type="button" name="shareButton">Submit Answers</button>
+    <button type="button" name="fbShare">Share on Facebook!</button>
+  </div>
 </body>
 
 <!-- templates -->
@@ -47,8 +46,12 @@
 <template id="likert-scale">
   <!-- can either be used 1-5 or "very unsatisfied"-"very satisfied"-->
   <div>
-    <label><input type="checkbox"></input></label>
-    <label><input type="checkbox"></input></label>
+    <label>
+      <input type="checkbox"></input>
+    </label>
+    <label>
+      <input type="checkbox"></input>
+    </label>
     <label>
       <input type="checkbox"></input>
     </label>

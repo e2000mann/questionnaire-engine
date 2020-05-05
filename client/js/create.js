@@ -30,6 +30,17 @@ function sayHi() {
   console.log("hi");
 }
 
+function upload() {
+  const email = sessionStorage.getItem("user-email");
+  const uuid =
+    // get questions first
+
+    // then load into database
+    const exportOption = document.querySelector("#exportOption");
+  // selected = json, unselected = csv
+  return;
+}
+
 // Main Code
 const name = localStorage.getItem("questionnaire-name");
 const addQuestion = document.getElementsByName("addQuestion")[0];

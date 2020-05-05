@@ -10,6 +10,7 @@ const app = express();
 app.use(express.static('client'));
 
 //Database
+const uuid = require('uuid-random');
 const {
   Client
 } = require('pg');
@@ -81,21 +82,45 @@ function getJsonFile(req, res) {
 
 function uploadResults(req, res) {
   const d = new Date();
-  if (req.query.type === "csv") {
-    console.log(`csv exported at ${d.toUTCString()}`);
-  } else {
-    console.log(`json exported at ${d.toUTCString()}`);
-  }
+  const questionnaire = req.query.q;
+  const answers = JSON.parse(req.query.answers);
+  const jsonLocation = `client/questionnaires/${title}/responses.json`;
+  const data = fs.read(jsonLocation, function(err) {
+    reject("error in reading file");
+  });
+  // append new data
+  fs.write(jsonLocation, function(err) {
+    reject("error in writing file");
+  });
+
 }
 
+async function addQuestionnaire(req, res) {
+  const json = JSON.parse(req.query.data);
+  const name = json.name;
+  const userEmail = req.query.email;
+  const id = uuid();
+  // upload data as file
+  const jsonLocation = `client/questionnaires/${name}/${name.json}`;
+  const data = fs.appendFile(jsonLocation, json, function(err) {
+    reject("error in writing file");
+  });
+
+  // add new field to database
+  const query = {
+    text: "INSERT into up887818 values ($1, $2, $3);",
+    values: [id, userEmail, name]
+  };
+  await sendQuery(query, "none");
+}
+
+// get requests
 //login
 app.get('/getQuestionnaires', getUsersQuestionnaires);
-
 app.get('/check', checkQuestionnaireExists);
 
-app.get('/q', getJsonFile);
-app.post('/q', uploadResults)
-
-// app.get('/i', getImageFolder);
+// put requests (sending data)
+app.post('/submit', uploadResults);
+app.post('/upload', addQuestionnaire);
 
 app.listen(8080);
