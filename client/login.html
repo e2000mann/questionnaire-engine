@@ -11,14 +11,14 @@
 
 <body>
   <!-- Scripts -->
+  <!-- Own Code -->
+  <script src="../js/login.js"></script>
   <!-- APIs -->
   <!-- Facebook -->
   <div id="fb-root"></div>
-  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v6.0&appId=710291289713662&autoLogAppEvents=1"></script>
+  <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
   <!-- Google -->
   <script src="https://apis.google.com/js/platform.js" async defer></script>
-  <!-- Own Code -->
-  <script src="../js/login.js"></script>
 
   <h1>Questionnaire Engine - Create/Edit</h1>
 
@@ -30,7 +30,7 @@
     <div class="fb-login-button" data-size="medium" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" data-width=""></div>
   </section>
 
-  <section class="loginOnly" hidden="true">
+  <section class="hideByDefault">
     <input type="text" placeholder="Questionnaire Name">
     <button type="button" name="create">Create Questionnaire</button>
     <button type="button" name="edit">Edit Questionnaire</button>

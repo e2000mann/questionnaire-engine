@@ -49,4 +49,4 @@ function addButtons() {
   buttons[1].addEventListener("click", loadQuestionnaire);
 }
 
-window.addEventListener("load", addButtons);
+window.onload = addButtons();

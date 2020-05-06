@@ -95,6 +95,10 @@ label {
   }
 }
 
+#hideByDefault {
+  display: none;
+}
+
 @media (max-width: 800px) {
   section>div {
     flex-direction: column;

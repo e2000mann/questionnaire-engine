@@ -16,8 +16,8 @@ async function loadItems(email) {
   // add email to sessionstorage
   sessionStorage.setItem("user-email", email);
   // show the items that is only available post-login
-  const loginOnly = document.querySelector(".loginOnly");
-  loginOnly.hidden = false;
+  const hidden = document.querySelector("#hideByDefault");
+  hidden.style.display = 'inline';
 
   // show questionnaires
   const url = `/getQuestionnaires?email=${email}`;

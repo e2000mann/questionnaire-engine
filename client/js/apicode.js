@@ -19,8 +19,8 @@ function initGoogle() {
   });
 }
 
-window.addEventListener("load", function() {
-  // Init both APIs
+window.onload = function() {
+  // init both APIs
   initFB();
   const auth2 = initGoogle();
-})
+};

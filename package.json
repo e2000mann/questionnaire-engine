@@ -4,6 +4,7 @@
   "description": "questionnaire engine for web programming cw",
   "main": "server.js",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "fs": "^0.0.1-security",
     "pg": "^8.0.2",

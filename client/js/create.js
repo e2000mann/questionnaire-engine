@@ -9,10 +9,18 @@ import {
 
 // functions
 
-function addTitle(name) {
-  let myh1 = document.createElement("h1");
-  myh1.textContent = name;
-  document.body.prepend(myh1);
+function edit() {
+  const uploadButton = document.getElementsByName("submit")[0];
+  uploadButton.addEventListener("click", upload(true));
+}
+
+function create() {
+  // show options only needed for creating questionnaire
+  const hidden = document.querySelector("#hideByDefault");
+  hidden.style.display = 'inline';
+
+  const uploadButton = document.getElementsByName("submit")[0];
+  uploadButton.addEventListener("click", upload(false));
 }
 
 function createQuestionInput() {
@@ -20,31 +28,31 @@ function createQuestionInput() {
   let buttons = document.querySelector(".buttons");
   let template = document.querySelector("#question-form");
   let clone = template.content.cloneNode(true);
-  let button = clone.childNodes[1].lastChild.previousSibling;
-  console.log(button);
-  button.addEventListener("click", sayHi);
   document.body.insertBefore(clone, buttons);
 }
 
-function sayHi() {
-  console.log("hi");
-}
-
-function upload() {
-  const email = sessionStorage.getItem("user-email");
-  const uuid =
-    // get questions first
-
-    // then load into database
+async function upload(edit) {
+  // get questions first
+  const data = {};
+  // if creating questionnaire
+  if (!edit) {
+    // uuid generated in server.js
+    const email = sessionStorage.getItem("user-email");
     const exportOption = document.querySelector("#exportOption");
-  // selected = json, unselected = csv
-  return;
+    const json = exportOption.selected;
+    // selected = json, unselected = csv
+    const url = `/create?data=${data}&email=${email}&json=${json}`;
+  } else {
+    const url = `/edit?data=${data}`;
+  }
+  let response = await fetch(url);
 }
 
 // Main Code
-const name = localStorage.getItem("questionnaire-name");
-const addQuestion = document.getElementsByName("addQuestion")[0];
+window.onload = function() {
+  const addQuestion = document.getElementsByName("addQuestion")[0];
 
-addQuestion.addEventListener("click", createQuestionInput);
+  addQuestion.addEventListener("click", createQuestionInput);
 
-localStorage.getItem("edit-mode") ? fetchQuestionnaire() : addTitle(name);
+  localStorage.getItem("edit-mode") ? edit() : create();
+};

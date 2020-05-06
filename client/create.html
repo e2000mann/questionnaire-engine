@@ -10,16 +10,22 @@
 </head>
 
 <body>
-  <section class="exportOptions">
-    <h2>Allow me to export the responses by...</h2>
-    <label>
-      <input id="exportOption" type="checkbox" name="" value="json">
-      <p>JSON/CSV</p>
-    </label>
-  </section>
+  <div class="hideByDefault">
+    <section class="name">
+      <h2>Name your Questionnaire!</h2>
+      <input type="text" name="name" value="" placeholder="name">
+    </section>
+    <section class="exportOptions">
+      <h2>Allow me to export the responses by...</h2>
+      <label>
+        <input id="exportOption" type="checkbox" name="" value="json">
+        <p>JSON/CSV</p>
+      </label>
+    </section>
+  </div>
   <section class="buttons">
     <button type="button" name="addQuestion">Add Question</button>
-    <button type="button" name="submitQuestionnaire">Submit</button>
+    <button type="button" name="submit">Submit</button>
   </section>
   <!-- type = "module" allows for input/export to be used in js file -->
   <script src="../js/create.js" type="module"></script>
@@ -30,6 +36,13 @@
   <section>
     <button type="button" name="delete">Delete Question</button>
   </section>
+</template>
+
+<template id="singleOrMulti">
+  <label>
+    <input type="checkbox" name="" value="true">
+    <p>Allow Multiple Answers</p>
+  </label>
 </template>
 
 <template id="text-checkbox">
@@ -82,7 +95,6 @@
       Required:
       <input type="checkbox" class="required"></input>
     </label>
-    <button type="button" name="add">Add Question</button>
   </section>
 </template>
 

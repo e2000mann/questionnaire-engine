@@ -1,6 +1,9 @@
 //up887818 server
 'use strict';
 
+//Loading environment variables
+require('dotenv').config();
+
 //Libraries
 const express = require('express');
 const fs = require('fs');
@@ -96,22 +99,33 @@ function uploadResults(req, res) {
 }
 
 async function addQuestionnaire(req, res) {
-  const json = JSON.parse(req.query.data);
+  const data = JSON.parse(req.query.data);
   const name = json.name;
   const userEmail = req.query.email;
+  const json = req.query.json;
   const id = uuid();
   // upload data as file
   const jsonLocation = `client/questionnaires/${name}/${name.json}`;
-  const data = fs.appendFile(jsonLocation, json, function(err) {
+  const data = fs.appendFile(jsonLocation, data, function(err) {
     reject("error in writing file");
   });
 
   // add new field to database
   const query = {
     text: "INSERT into up887818 values ($1, $2, $3);",
-    values: [id, userEmail, name]
+    values: [id, userEmail, json]
   };
   await sendQuery(query, "none");
+}
+
+async function editQuestionnaire(req, res) {
+  const data = JSON.parse(req.query.data);
+  const name = json.name;
+  // upload data as file
+  const jsonLocation = `client/questionnaires/${name}/${name.json}`;
+  const data = fs.appendFile(jsonLocation, data, function(err) {
+    reject("error in writing file");
+  });
 }
 
 // get requests
@@ -121,6 +135,7 @@ app.get('/check', checkQuestionnaireExists);
 
 // put requests (sending data)
 app.post('/submit', uploadResults);
-app.post('/upload', addQuestionnaire);
+app.post('/create', addQuestionnaire);
+app.post('/edit', editQuestionnaire);
 
 app.listen(8080);
