@@ -1,9 +1,6 @@
 //up887818 server
 'use strict';
 
-//Loading environment variables
-require('dotenv').config();
-
 //Libraries
 const express = require('express');
 const fs = require('fs');
@@ -54,35 +51,33 @@ async function sendQuery(query, output) {
   }
 }
 
+// for post /getQuestionnaires
 async function getUsersQuestionnaires(req, res) {
   const email = req.query.email;
 
   const query = {
     text: 'SELECT id, name FROM up887818web WHERE email = $1',
     values: [email],
-  }
+  };
 
   let results = sendQuery(query, "all");
 }
 
+// for post /check
 function checkQuestionnaireExists(req, res) {
   let result = fs.existsSync(`client/questionnaires/${req.query.name}`);
   res.send(result.toString());
 }
 
-function getJsonFile(req, res) {
+// for post /load
+function getQuestionnaire(req, res) {
   let jsonLocation = `client/questionnaires/${req.query.name}/${req.query.name}.json`;
   let jsonFile = JSON.parse(fs.readFileSync(jsonLocation, 'utf8'));
   res.json(jsonFile);
 }
 
-// function getImageFolder(req, res) {
-//   const name = req.query.name;
-//   const id = req.query.id;
-//   const imageLocation = `questionnaires/${name}/${id}`;
-//   res.json(imageLocation);
-// }
 
+// for get /submit
 function uploadResults(req, res) {
   const d = new Date();
   const questionnaire = req.query.q;
@@ -98,6 +93,8 @@ function uploadResults(req, res) {
 
 }
 
+
+// for get /create
 async function addQuestionnaire(req, res) {
   const data = JSON.parse(req.query.data);
   const name = json.name;
@@ -118,6 +115,8 @@ async function addQuestionnaire(req, res) {
   await sendQuery(query, "none");
 }
 
+
+// for get /edit
 async function editQuestionnaire(req, res) {
   const data = JSON.parse(req.query.data);
   const name = json.name;
@@ -128,14 +127,27 @@ async function editQuestionnaire(req, res) {
   });
 }
 
+// for get /download
+function download(req, res) {
+  // if responses are stored in json, send json, else send the csv
+  if (fs.existsSync(`client/questionnaires/${req.query.name}/responses.json`)) {
+    return `client/questionnaires/${req.query.name}/responses.json`;
+  } else {
+    return `client/questionnaires/${req.query.name}/responses.csv`;
+  }
+}
+
 // get requests
 //login
 app.get('/getQuestionnaires', getUsersQuestionnaires);
 app.get('/check', checkQuestionnaireExists);
+//load
+app.get('/load', getQuestionnaire);
 
 // put requests (sending data)
 app.post('/submit', uploadResults);
 app.post('/create', addQuestionnaire);
 app.post('/edit', editQuestionnaire);
+app.post('/download', download);
 
 app.listen(8080);
