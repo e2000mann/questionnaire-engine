@@ -36,17 +36,65 @@ function loadQuestionnaire() {
   }
 }
 
-function addButtons() {
-  // Getting all buttons in an array
-  const buttons = document.getElementsByTagName("button");
-
-  //Button 0 - "Create/Edit Questionnaire"
-  buttons[0].addEventListener("click", function() {
-    window.location.href = "../login.html"
-  });
-
-  //Button 1 - "Load Questionnaire"
-  buttons[1].addEventListener("click", loadQuestionnaire);
+// login functionality
+function fbLogin(response) {
+  if (response.status === 'connected') {
+    loadItems(email);
+  }
 }
 
-window.onload = addButtons();
+function onSignIn(googleuser) {
+  const profile = googleuser.getBasicProfile();
+  const email = profile.getEmail();
+  loadItems(email);
+}
+
+async function edit() {
+  return;
+}
+
+async function loadItems(email) {
+  // add email to sessionstorage
+  sessionStorage.setItem("user-email", email);
+  // show the items that is only available post-login
+  const hidden = document.querySelector(".hideByDefault");
+  hidden.style.display = 'inline';
+
+  // show questionnaires
+  const url = `/getQuestionnaires?email=${email}`;
+  let response = await fetch(url);
+
+  if (response.ok) {
+    const data = await response.json();
+    generateHtml(data);
+  };
+}
+
+async function generateHtml(data) {
+  const destination = document.querySelector(".hideByDefault");
+  const template = document.querySelector("#questionnaire");
+
+  for (const questionnaire of data) {
+    // copy template
+    let clone = template.content.cloneNode(true);
+    console.log(clone);
+    // write name
+    let nameBox = clone.querySelectorAll("h3")[0];
+    nameBox.textContent = questionnaire.name;
+    // get buttons
+    let buttons = clone.querySelectorAll("button");
+    buttons[0].addEventListener("click", edit);
+    // get download link
+    if (questionnaire.json) {
+      buttons[1].addEventListener("click", function() {
+        window.open(`/client/questionnaires/${questionnaire.name}/responses.json`);
+      });
+    } else {
+      buttons[1].addEventListener("click", function() {
+        window.open(`/client/questionnaires/${questionnaire.name}/responses.csv`);
+      });
+    }
+    // destination.children[1] gets 2nd child
+    destination.insertBefore(clone, destination.children[1]);
+  };
+}

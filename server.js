@@ -23,9 +23,9 @@ async function sendQuery(query, output) {
 
   // Setting up client - each query requires a new client
   const client = new Client({
-    database: `up887818`,
-    user: `serverconnect`,
-    password: `webProgCw`
+    database: "up887818web",
+    user: "serverconnect",
+    password: "webProgCw"
   });
   client.connect();
 
@@ -56,11 +56,17 @@ async function getUsersQuestionnaires(req, res) {
   const email = req.query.email;
 
   const query = {
-    text: 'SELECT id, name FROM up887818web WHERE email = $1',
+    text: 'SELECT * FROM up887818web WHERE email = $1',
     values: [email],
   };
 
-  let results = sendQuery(query, "all");
+  try {
+    let results = await sendQuery(query, "all");
+    return res.json(results);
+  } catch (e) {
+    console.log(e);
+    return {};
+  }
 }
 
 // for post /check
@@ -83,7 +89,7 @@ function uploadResults(req, res) {
   const questionnaire = req.query.q;
   const answers = JSON.parse(req.query.answers);
   const jsonLocation = `client/questionnaires/${title}/responses.json`;
-  const data = fs.read(jsonLocation, function(err) {
+  fs.read(jsonLocation, function(err) {
     reject("error in reading file");
   });
   // append new data
@@ -103,7 +109,7 @@ async function addQuestionnaire(req, res) {
   const id = uuid();
   // upload data as file
   const jsonLocation = `client/questionnaires/${name}/${name.json}`;
-  const data = fs.appendFile(jsonLocation, data, function(err) {
+  fs.appendFile(jsonLocation, data, function(err) {
     reject("error in writing file");
   });
 
@@ -122,19 +128,9 @@ async function editQuestionnaire(req, res) {
   const name = json.name;
   // upload data as file
   const jsonLocation = `client/questionnaires/${name}/${name.json}`;
-  const data = fs.appendFile(jsonLocation, data, function(err) {
+  fs.appendFile(jsonLocation, data, function(err) {
     reject("error in writing file");
   });
-}
-
-// for get /download
-function download(req, res) {
-  // if responses are stored in json, send json, else send the csv
-  if (fs.existsSync(`client/questionnaires/${req.query.name}/responses.json`)) {
-    return `client/questionnaires/${req.query.name}/responses.json`;
-  } else {
-    return `client/questionnaires/${req.query.name}/responses.csv`;
-  }
 }
 
 // get requests
@@ -148,6 +144,5 @@ app.get('/load', getQuestionnaire);
 app.post('/submit', uploadResults);
 app.post('/create', addQuestionnaire);
 app.post('/edit', editQuestionnaire);
-app.post('/download', download);
 
 app.listen(8080);
