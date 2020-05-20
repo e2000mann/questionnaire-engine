@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS up887818web (
 
 -- pre generated uuids for testing
 INSERT INTO up887818web (id, name, email, json) VALUES
-('4d87e050-e74f-4de7-a144-6c76dac3622e', 'example-questionnaire', 'up887818@myport.ac.uk', TRUE);
+('4d87e050-e74f-4de7-a144-6c76dac3622e', 'Example Questionnaire', 'up887818@myport.ac.uk', TRUE);
 
 -- creating user for server to use
 create user serverconnect password 'webProgCw' superuser;

@@ -51,7 +51,7 @@ async function sendQuery(query, output) {
   }
 }
 
-// for post /getQuestionnaires
+// for get /getQuestionnaires
 async function getUsersQuestionnaires(req, res) {
   const email = req.query.email;
 
@@ -65,45 +65,78 @@ async function getUsersQuestionnaires(req, res) {
     return res.json(results);
   } catch (e) {
     console.log(e);
-    return {};
+    return res.json([]);
   }
 }
 
-// for post /check
-function checkQuestionnaireExists(req, res) {
-  let result = fs.existsSync(`client/questionnaires/${req.query.name}`);
-  res.send(result.toString());
+// for get /check
+async function checkQuestionnaireExists(req, res) {
+
+  const query = {
+    text: 'SELECT id FROM up887818web WHERE name = $1',
+    values: [req.query.name]
+  };
+
+  try {
+    let result = await sendQuery(query, "one");
+    if (result != null) {
+      console.log("result found");
+      return res.send(result.id);
+    } else {
+      console.log("result not found");
+      return res.send("");
+    }
+  } catch (e) {
+    console.log(e);
+    return res.send("");
+  }
 }
 
-// for post /load
+// for get /load
 function getQuestionnaire(req, res) {
-  let jsonLocation = `client/questionnaires/${req.query.name}/${req.query.name}.json`;
+  let jsonLocation = `client/questionnaires/${req.query.id}/${req.query.id}.json`;
   let jsonFile = JSON.parse(fs.readFileSync(jsonLocation, 'utf8'));
   res.json(jsonFile);
 }
 
 
 // for get /submit
-function uploadResults(req, res) {
-  const d = new Date();
-  const title = req.query.q;
-  const answers = JSON.parse(req.query.answers);
-  const jsonLocation = `client/questionnaires/${title}/responses.json`;
+async function uploadResults(req, res) {
+  const id = req.query.id;
+  const response = {
+    date: new Date(),
+    answers: JSON.parse(req.query.answers)
+  };
+
+  const query = {
+    text: 'SELECT json FROM up887818web WHERE id=$1',
+    values: [id]
+  };
+
+  try {
+    let result = await sendQuery(query, "one");
+    // true = json; false = csv
+    if (result == "t") {
+      uploadJson(id, response);
+    } else {
+      uploadCsv(id, response);
+    }
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+function uploadJson(id, response) {
+  const jsonLocation = `client/questionnaires/${id}/responses.json`;
   let output = {};
   const fileExists = fs.existsSync(jsonLocation);
   if (fileExists) {
     console.log("file exists");
     output = JSON.parse(fs.readFileSync(jsonLocation));
-    output.responses.push({
-      date: d,
-      answers: answers.answers
-    });
+    output.responses.push(response);
   } else {
     output = {
-      responses: [{
-        date: d,
-        answers: answers.answers
-      }]
+      responses: [response]
     };
   }
   console.log(output);
@@ -114,7 +147,19 @@ function uploadResults(req, res) {
     if (err) throw err;
     console.log("wrote to file");
   });
+}
 
+function uploadCsv(id, response) {
+  const csvLocation = `client/questionnaires/${id}/responses.csv`;
+  const answersArray = [];
+  for (const item of Object.values(response.answers)) {
+    answersArray.push(item.answer);
+  }
+  console.log(answersArray);
+  let output = [response.date, answersArray];
+  fs.appendFile(csvLocation, output.toString(), function(err) {
+    if (err) throw err;
+  });
 }
 
 
@@ -126,7 +171,7 @@ async function addQuestionnaire(req, res) {
   const json = req.query.json;
   const id = uuid();
   // upload data as file
-  const jsonLocation = `client/questionnaires/${name}/${name.json}`;
+  const jsonLocation = `client/questionnaires/${id}/${id.json}`;
   fs.appendFile(jsonLocation, data, function(err) {
     reject("error in writing file");
   });
@@ -158,7 +203,7 @@ app.get('/check', checkQuestionnaireExists);
 //load
 app.get('/load', getQuestionnaire);
 
-// put requests (sending data)
+// post requests (sending data)
 app.post('/submit', uploadResults);
 app.post('/create', addQuestionnaire);
 app.post('/edit', editQuestionnaire);

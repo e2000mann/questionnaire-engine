@@ -109,7 +109,8 @@ function makeTextbox(question, element) {
 
 
 function loadImageQuestion(question, element) {
-  let imageFolder = `questionnaires/${question.images}`;
+  let id = localStorage.getItem("questionnaire-id");
+  let imageFolder = `questionnaires/${id}/${question.id}`;
   let template = document.querySelector("#image-checkbox");
 
   for (const option of question.options) {
@@ -166,9 +167,10 @@ function correctCheckboxes(section) {
 }
 
 export async function fetchQuestionnaire() {
-  let name = localStorage.getItem("questionnaire-name");
+  const id = localStorage.getItem("questionnaire-id");
+  console.log(id);
 
-  let url = `/load?name=${name}`;
+  const url = `/load?id=${id}`;
 
   let response = await fetch(url);
   const questionnaire = await response.json();

@@ -128,14 +128,12 @@ function getAnswers() {
 async function submit() {
   const complete = checkIfRequiredComplete();
   if (complete) {
-    const answers = {
-      answers: getAnswers()
-    };
-    console.log(JSON.stringify(answers));
+    const answers = getAnswers();
+    console.log(answers);
 
-    const title = localStorage.getItem("questionnaire-name");
+    const id = localStorage.getItem("questionnaire-id");
 
-    let url = `/submit?q=${title}&answers=${JSON.stringify(answers)}`;
+    let url = `/submit?id=${id}&answers=${JSON.stringify(answers)}`;
     let response = await fetch(url, {
       method: 'POST'
     });

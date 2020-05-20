@@ -56,7 +56,6 @@
       "text": "How are you feeling today?",
       "type": "single-select-image",
       "required": "false",
-      "images": "example-questionnaire/mood",
       "options": [
         "angry",
         "bored",

@@ -36,6 +36,7 @@ function createQuestionInput() {
 async function upload(edit) {
   // get questions first
   const data = {};
+  let url = '';
   // if creating questionnaire
   if (!edit) {
     // uuid generated in server.js
@@ -43,9 +44,9 @@ async function upload(edit) {
     const exportOption = document.querySelector("#exportOption");
     const json = exportOption.selected;
     // selected = json, unselected = csv
-    const url = `/create?data=${data}&email=${email}&json=${json}`;
+    url = `/create?data=${data}&email=${email}&json=${json}`;
   } else {
-    const url = `/edit?data=${data}`;
+    url = `/edit?data=${data}`;
   }
   let response = await fetch(url);
 }
