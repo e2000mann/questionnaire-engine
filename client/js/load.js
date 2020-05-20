@@ -133,7 +133,7 @@ async function submit() {
     };
     console.log(JSON.stringify(answers));
 
-    const title = document.getElementsByTagName("h1")[0].textContent;
+    const title = localStorage.getItem("questionnaire-name");
 
     let url = `/submit?q=${title}&answers=${JSON.stringify(answers)}`;
     let response = await fetch(url, {

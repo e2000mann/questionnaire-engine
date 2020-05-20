@@ -89,12 +89,30 @@ function uploadResults(req, res) {
   const title = req.query.q;
   const answers = JSON.parse(req.query.answers);
   const jsonLocation = `client/questionnaires/${title}/responses.json`;
-  fs.readFile(jsonLocation, (err, data) => {
-    return "error in reading file";
-  });
+  let output = {};
+  const fileExists = fs.existsSync(jsonLocation);
+  if (fileExists) {
+    console.log("file exists");
+    output = JSON.parse(fs.readFileSync(jsonLocation));
+    output.responses.push({
+      date: d,
+      answers: answers.answers
+    });
+  } else {
+    output = {
+      responses: [{
+        date: d,
+        answers: answers.answers
+      }]
+    };
+  }
+  console.log(output);
   // append new data
-  fs.writeFile(jsonLocation, (err, data) => {
-    return "error in writing file";
+  fs.writeFile(jsonLocation, JSON.stringify(output), {
+    flag: 'w'
+  }, function(err) {
+    if (err) throw err;
+    console.log("wrote to file");
   });
 
 }
