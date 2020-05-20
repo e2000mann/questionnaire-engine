@@ -22,7 +22,7 @@
   <script src="https://apis.google.com/js/platform.js" async defer></script>
   <h1> UP887818's Questionnaire Engine </h1>
   <p>What do you want to do?</p>
-  <button type="button" name="load" onclick="loadQuestionnaire">Load Questionnaire</button>
+  <button type="button" name="load" onclick="loadQuestionnaire()">Load Questionnaire</button>
   <p>Login to create, edit, and download the responses of your questionnaire</p>
   <!-- Login buttons -->
   <section class="loginButtons">
@@ -33,7 +33,7 @@
     <h2>Your Questionnaires</h2>
     <section>
       <input type="text" placeholder="Questionnaire Name">
-      <button type="button" name="create" onclick="createQuestionnaire">Create Questionnaire</button>
+      <button type="button" name="create" onclick="createQuestionnaire()">Create Questionnaire</button>
     </section>
   </section>
 </body>
@@ -42,7 +42,7 @@
 <template id="questionnaire">
   <section>
     <h3></h3>
-    <button type="button" name="edit" onclick="editQuestionnaire">Edit Questionnaire</button>
+    <button type="button" name="edit" onclick="editQuestionnaire()">Edit Questionnaire</button>
     <button type="button" name="download">Download Responses</button>
   </section>
 </template>

@@ -86,15 +86,15 @@ function getQuestionnaire(req, res) {
 // for get /submit
 function uploadResults(req, res) {
   const d = new Date();
-  const questionnaire = req.query.q;
+  const title = req.query.q;
   const answers = JSON.parse(req.query.answers);
   const jsonLocation = `client/questionnaires/${title}/responses.json`;
-  fs.read(jsonLocation, function(err) {
-    reject("error in reading file");
+  fs.readFile(jsonLocation, (err, data) => {
+    return "error in reading file";
   });
   // append new data
-  fs.write(jsonLocation, function(err) {
-    reject("error in writing file");
+  fs.writeFile(jsonLocation, (err, data) => {
+    return "error in writing file";
   });
 
 }

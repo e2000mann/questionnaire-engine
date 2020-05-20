@@ -136,7 +136,9 @@ async function submit() {
     const title = document.getElementsByTagName("h1")[0].textContent;
 
     let url = `/submit?q=${title}&answers=${JSON.stringify(answers)}`;
-    let response = await fetch(url);
+    let response = await fetch(url, {
+      method: 'POST'
+    });
     if (response.ok) {
       window.alert("Thanks for your participation!");
     } else {

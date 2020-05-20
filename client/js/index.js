@@ -98,7 +98,6 @@ async function generateHtml(data) {
   for (const questionnaire of data) {
     // copy template
     let clone = template.content.cloneNode(true);
-    console.log(clone);
     // write name
     let nameBox = clone.querySelectorAll("h3")[0];
     nameBox.textContent = questionnaire.name;

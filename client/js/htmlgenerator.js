@@ -168,7 +168,7 @@ function correctCheckboxes(section) {
 export async function fetchQuestionnaire() {
   let name = localStorage.getItem("questionnaire-name");
 
-  let url = `/q?name=${name}`;
+  let url = `/load?name=${name}`;
 
   let response = await fetch(url);
   const questionnaire = await response.json();
