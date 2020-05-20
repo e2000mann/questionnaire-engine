@@ -12,6 +12,8 @@ import {
 function edit() {
   const uploadButton = document.getElementsByName("submit")[0];
   uploadButton.addEventListener("click", upload(true));
+
+
 }
 
 function create() {
@@ -54,5 +56,8 @@ window.onload = function() {
 
   addQuestion.addEventListener("click", createQuestionInput);
 
-  localStorage.getItem("edit-mode") ? edit() : create();
+  // using sessionStorage instead of localStorage to reduce amount of data
+  // left when session ended
+  // json parse turns strings into bool value
+  JSON.parse(sessionStorage.getItem("edit-mode")) ? edit() : create();
 };

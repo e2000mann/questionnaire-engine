@@ -36,6 +36,27 @@ function loadQuestionnaire() {
   }
 }
 
+function createQuestionnaire() {
+  const userInput = window.prompt("Type in the name of the questionnaire:");
+
+  if (userInput !== null) {
+    sessionStorage.addItem("edit-mode", "false");
+    sessionStorage.addItem("questionnaire-name", userInput);
+
+    window.location.href = "../create.html";
+  }
+}
+
+function editQuestionnaire() {
+  sessionStorage.addItem("edit-mode", "true");
+
+  // should get h3 element
+  const nameEle = event.target.parentElement.firstChild;
+  const name = nameEle.textContent;
+
+  sessionStorage.addItem("questionnaire-name", name);
+}
+
 // login functionality
 function fbLogin(response) {
   if (response.status === 'connected') {
