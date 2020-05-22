@@ -1,0 +1,27 @@
+/* Emphasise required questions */
+[class$="required"]>p {
+  color: red;
+  font-size: 2em;
+}
+
+/* Finds section with a class that ends in "image"*/
+/* Hides checkboxes (can still click them) */
+section[class$="image"]>label>input {
+  visibility: hidden;
+}
+
+/* Puts border around selected images */
+section>.selected>img {
+  border: medium solid red;
+}
+
+/* Use flex for checkbox questions */
+section[class$="select"]>label {
+  display: flex;
+  flex-direction: row;
+}
+
+label>p {
+  display: inline;
+  margin-left: 1em;
+}

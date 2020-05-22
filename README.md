@@ -2,9 +2,7 @@
 Version: 0
 
 ## Features
-- Login using:
-  - Google (OAuth)
-  - Facebook*
+- Login using Google (OAuth)
 - Being logged in allows for the following:
   - Creating questionnaires
   - Editing previously made questionnaires

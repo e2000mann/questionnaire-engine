@@ -1,0 +1,20 @@
+/* Hide authorised-only features */
+#hideByDefault {
+  display: none;
+}
+
+/* Center aligns google sign in button */
+.g-signin2 {
+  width: 100%;
+}
+
+.g-signin2>div {
+  margin: 0 auto;
+}
+
+/* Boxes to surround each questionnaire */
+#hideByDefault>section {
+  border: solid;
+  margin-bottom: 1em;
+  padding-bottom: 1em;
+}

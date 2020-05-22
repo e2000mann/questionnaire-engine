@@ -14,13 +14,12 @@ Last updated: 28/01/20
 - [ ] Server
   - [x] that serves the client application
   - [x] that uses a json file for structuring the questionnaire
-  - [ ] that stores the responses submitted through API
+  - [x] that stores the responses submitted through API
   - [ ] that supports a download of the responses in a structured way (json, csv)
-    - [x] add export buttons
-    - [ ] create functions
-      - [ ] inputs to js object (half complete)
-      - [ ] js object to json
-      - [ ] js object to csv
+    - [x] database has boolean to determine json or csv
+    - [x] responses save to json
+    - [x] responses save to csv
+    - [ ] downloadable
 
 - [ ] Accessibility
   - [x] light/dark mode
@@ -38,5 +37,10 @@ Last updated: 28/01/20
   - [x] support for selecting images
 - [ ] support for branching: show optional questions based on answers of previous questions
 - [ ] support for optional/required questions through boolean
-- [ ] security based on OAuth (google acc) authentication
-  - [ ] check if user is owner of questionnaire based on their email address
+  - [x] required
+  - [ ] optional
+- [x] security based on OAuth (google acc) authentication
+  - [x] check if user is owner of questionnaire based on their email address
+
+# Other
+client/questionnaires/4d87e050-e74f-4de7-a144-6c76dac3622e

@@ -7,28 +7,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="google-signin-client_id" content="679360714828-uc1klbjb7vir1dangcggn499u5stifdj.apps.googleusercontent.com">
   <title>Questionnaire Engine</title>
-  <link rel="stylesheet" href="../index.css">
+  <link rel="stylesheet" href="../css/core.css">
+  <link rel="stylesheet" href="../css/index.css">
 </head>
 
 <body>
   <!-- Scripts -->
+  <!-- Google API -->
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
   <!-- Own Code -->
   <script src="../js/index.js"></script>
-  <!-- APIs -->
-  <!-- Facebook -->
-  <div id="fb-root"></div>
-  <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
-  <!-- Google -->
-  <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+  <!-- HTML -->
   <h1> UP887818's Questionnaire Engine </h1>
   <p>What do you want to do?</p>
   <button type="button" name="load" onclick="loadQuestionnaire()">Load Questionnaire</button>
   <p>Login to create, edit, and download the responses of your questionnaire</p>
+
   <!-- Login buttons -->
-  <section class="loginButtons">
-    <div class="g-signin2" data-onsuccess="onSignIn"></div>
-    <div class="fb-login-button" data-size="medium" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" data-width=""></div>
-  </section>
+  <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
   <section class="hideByDefault">
     <h2>Your Questionnaires</h2>
     <section>

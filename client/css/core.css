@@ -1,0 +1,21 @@
+/* variables for light theme */
+:root {
+  --bg-color: gainsboro;
+  --outline: darkgray;
+  --font-color: black;
+}
+
+* {
+  text-align: center;
+  font-family: sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+
+  /* variables for dark theme */
+  :root {
+    --bg-color: #202020;
+    --outline: black;
+    --font-color: white;
+  }
+}

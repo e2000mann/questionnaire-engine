@@ -68,19 +68,23 @@ function fbLogin(response) {
 function onSignIn(googleuser) {
   const profile = googleuser.getBasicProfile();
   const email = profile.getEmail();
-  loadItems(email);
+  const name = profile.getGivenName();
+  loadItems(email, name);
 }
 
 async function edit() {
   return;
 }
 
-async function loadItems(email) {
+async function loadItems(email, name) {
   // add email to sessionstorage
   sessionStorage.setItem("user-email", email);
   // show the items that is only available post-login
   const hidden = document.querySelector(".hideByDefault");
   hidden.style.display = 'inline';
+
+  const textBox = document.querySelector("h2");
+  textBox.textContent = `${name}'s Questionnaires`;
 
   // show questionnaires
   const url = `/getQuestionnaires?email=${email}`;
@@ -90,6 +94,14 @@ async function loadItems(email) {
     const data = await response.json();
     generateHtml(data);
   };
+}
+
+function download(element, filename) {
+  element.setAttribute('href', filename);
+
+  element.click();
+
+  element.setAttribute('href', "#");
 }
 
 async function generateHtml(data) {
@@ -108,11 +120,13 @@ async function generateHtml(data) {
     // get download link
     if (questionnaire.json) {
       buttons[1].addEventListener("click", function() {
-        window.open(`/client/questionnaires/${questionnaire.name}/responses.json`);
+        const a = event.target.parentElement.getElementsByTagName("a")[0];
+        download(a, `/client/questionnaires/${questionnaire.id}/responses.json`);
       });
     } else {
       buttons[1].addEventListener("click", function() {
-        window.open(`/client/questionnaires/${questionnaire.name}/responses.csv`);
+        const a = event.target.parentElement.getElementsByTagName("a")[0];
+        download(a, `/client/questionnaires/${questionnaire.id}/responses.csv`);
       });
     }
     // destination.children[1] gets 2nd child
