@@ -164,7 +164,7 @@ function loadFunct() {
   const submitButton = buttons[0];
   const shareButton = buttons[1];
 
-  //initialise APIs
+  //initialise facebook API
   initFB();
 
   //setting button actions

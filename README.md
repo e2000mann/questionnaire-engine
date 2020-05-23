@@ -1,10 +1,9 @@
 # up887818 Web Programming CW - Questionnaire Engine
-Version: 0
 
 ## Features
 - Login using Google (OAuth)
 - Being logged in allows for the following:
-  - Creating questionnaires
+  - Creating questionnaires through JSON or GUI
   - Editing previously made questionnaires
   - Exporting questionnaire answers as either a CSV or JSON file
 - Features all users can use:
@@ -12,12 +11,16 @@ Version: 0
   - Share questionnaire on Facebook*
   - Share questionnaire on Twitter
 - Support for the following types of questions:
-  - Text
-  - Number
-  - Single Select
-  - Multi Select
-  - Image Select
+  - Text "text"
+  - Number "number"
+  - Select
+    - Single Select "single-select"
+    - Multi Select "multi-select"
+    - Single Image Select "single-select-image"
+    - Multi Image Select "multi-select-image"
   - Likert Scale
+    - Numbers (1->5) "likert-scale-numbers"
+    - Very Satisfied -> Very Unsatisfied "likert-scale-values"
 
 ## How it works
 - Database using PSQL (npm run setup)

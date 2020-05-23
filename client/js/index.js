@@ -48,6 +48,41 @@ function createQuestionnaire() {
   }
 }
 
+async function uploadJson() {
+  // first check to see if there is a json file
+  const jsonFile = document.querySelector("jsonFile").files[0];
+  if (jsonFile == null) {
+    window.alert("You haven't uploaded a json file!")
+  } else {
+    const openJson = JSON.parse(jsonFile);
+    // get users response choice
+    const userInput = window.prompt("Do you want the responses in CSV or JSON?");
+
+    if (userInput !== null) {
+      const jsonChoice = false;
+      if (userInput.toLowerCase() == "json") {
+        jsonChoice = true;
+      }
+    }
+
+    // get email
+    const email = sessionStorage.getItem("user-email");
+
+    // todo: get this to work with images
+
+    // upload to server & database
+    const url = `/create?data=${openJson}&email=${email}&json=${jsonChoice}`;
+    let response = await fetch(url, {
+      method: 'POST'
+    });
+    if (response.ok) {
+      window.alert("Thanks for uploading a questionnaire!");
+    } else {
+      window.alert("There has been an error. Please try again later.");
+    }
+  }
+}
+
 function editQuestionnaire() {
   sessionStorage.addItem("edit-mode", "true");
 
@@ -70,10 +105,6 @@ function onSignIn(googleuser) {
   const email = profile.getEmail();
   const name = profile.getGivenName();
   loadItems(email, name);
-}
-
-async function edit() {
-  return;
 }
 
 async function loadItems(email, name) {
