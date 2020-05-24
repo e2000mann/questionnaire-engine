@@ -94,12 +94,6 @@ function editQuestionnaire() {
 }
 
 // login functionality
-function fbLogin(response) {
-  if (response.status === 'connected') {
-    loadItems(email);
-  }
-}
-
 function onSignIn(googleuser) {
   const profile = googleuser.getBasicProfile();
   const email = profile.getEmail();
@@ -127,12 +121,22 @@ async function loadItems(email, name) {
   };
 }
 
-function download(element, filename) {
-  element.setAttribute('href', filename);
+async function download(element, id, ext) {
+  const fileDir = `../questionnaires/${id}/responses.${ext}`;
+  const fileName = `responses.${ext}`;
 
-  element.click();
+  let response = await fetch(`/checkForResponses?id=${id}&filename=${fileName}`);
+  if (response.ok) {
+    const fileExists = await response.text();
+    if (fileExists == "true") {
+      element.href = fileDir;
+      element.download = fileName;
 
-  element.setAttribute('href', "#");
+      element.click();
+    } else {
+      window.alert("You have not yet had any responses.");
+    }
+  }
 }
 
 async function generateHtml(data) {
@@ -146,18 +150,18 @@ async function generateHtml(data) {
     let nameBox = clone.querySelectorAll("h3")[0];
     nameBox.textContent = questionnaire.name;
     // get buttons
-    let buttons = clone.querySelectorAll("button");
-    buttons[0].addEventListener("click", edit);
+    const dlButton = clone.querySelectorAll("button")[1];
     // get download link
     if (questionnaire.json) {
-      buttons[1].addEventListener("click", function() {
+      dlButton.addEventListener("click", function() {
         const a = event.target.parentElement.getElementsByTagName("a")[0];
-        download(a, `/client/questionnaires/${questionnaire.id}/responses.json`);
+        download(a, questionnaire.id, "json");
       });
     } else {
-      buttons[1].addEventListener("click", function() {
+      dlButton.addEventListener("click", function() {
         const a = event.target.parentElement.getElementsByTagName("a")[0];
-        download(a, `/client/questionnaires/${questionnaire.id}/responses.csv`);
+        console.log(a);
+        download(a, questionnaire.id, "csv");
       });
     }
     // destination.children[1] gets 2nd child

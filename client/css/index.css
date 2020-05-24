@@ -3,6 +3,11 @@
   display: none;
 }
 
+/* Hide download links */
+a {
+  display: none;
+}
+
 /* Center aligns google sign in button */
 .g-signin2 {
   width: 100%;

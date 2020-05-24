@@ -99,6 +99,14 @@ function getQuestionnaire(req, res) {
   res.json(jsonFile);
 }
 
+// for get /checkForResponses
+function checkForResponses(req, res) {
+  const location = `client/questionnaires/${req.query.id}/${req.query.filename}`;
+  console.log(location);
+  const fileExists = fs.existsSync(location);
+  console.log(fileExists);
+  return res.send(fileExists);
+}
 
 // for get /submit
 async function uploadResults(req, res) {
@@ -202,6 +210,8 @@ app.get('/getQuestionnaires', getUsersQuestionnaires);
 app.get('/check', checkQuestionnaireExists);
 //load
 app.get('/load', getQuestionnaire);
+// check if responses exists
+app.get('/checkForResponses', checkForResponses);
 
 // post requests (sending data)
 app.post('/submit', uploadResults);

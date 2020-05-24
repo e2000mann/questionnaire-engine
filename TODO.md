@@ -3,7 +3,7 @@ Last updated: 28/01/20
 # Core Features
 - [ ] Client Application for participants
   - [x] that makes it possible to fill in a questionnaire
-  - [ ] that supports a linear flow of questions
+  - [x] that supports a linear flow of questions
     Required Types of questions
     - [x] text
     - [x] number
@@ -11,15 +11,15 @@ Last updated: 28/01/20
     - [x] multi select
   - [ ] that works on mobile
 
-- [ ] Server
+- [x] Server
   - [x] that serves the client application
   - [x] that uses a json file for structuring the questionnaire
   - [x] that stores the responses submitted through API
-  - [ ] that supports a download of the responses in a structured way (json, csv)
+  - [x] that supports a download of the responses in a structured way (json, csv)
     - [x] database has boolean to determine json or csv
     - [x] responses save to json
     - [x] responses save to csv
-    - [ ] downloadable
+    - [x] downloadable
 
 - [ ] Accessibility
   - [x] light/dark mode
@@ -36,9 +36,7 @@ Last updated: 28/01/20
   - [ ] sliders
   - [x] support for selecting images
 - [ ] support for branching: show optional questions based on answers of previous questions
-- [ ] support for optional/required questions through boolean
-  - [x] required
-  - [ ] optional
+- [x] support for required questions
 - [x] security based on OAuth (google acc) authentication
   - [x] check if user is owner of questionnaire based on their email address
 
