@@ -122,12 +122,18 @@ async function loadItems(email, name) {
 }
 
 async function download(element, id, ext) {
-  const fileDir = `../questionnaires/${id}/responses.${ext}`;
   const fileName = `responses.${ext}`;
+  // fileDir is relative to this file. Using a direct directory fails
+  const fileDir = `../questionnaires/${id}/${fileName}`;
 
+  // To reduce initial load on server the download link is not set up until
+  // the user requests it.
+  // Since fileDir is relative to this file & not the server, this sends the
+  // id & filename so that the correct directory is checked on the server side.
   let response = await fetch(`/checkForResponses?id=${id}&filename=${fileName}`);
   if (response.ok) {
     const fileExists = await response.text();
+    // is meant to be a boolean
     if (fileExists == "true") {
       element.href = fileDir;
       element.download = fileName;
