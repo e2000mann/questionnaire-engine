@@ -5,13 +5,15 @@
   --font-color: black;
 }
 
+/* Starting css for every element */
 * {
   text-align: center;
   font-family: sans-serif;
+  background-color: var(--bg-color);
+  font-color: var(--font-color);
 }
 
 @media (prefers-color-scheme: dark) {
-
   /* variables for dark theme */
   :root {
     --bg-color: #202020;
