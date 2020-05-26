@@ -13,20 +13,6 @@ import {
 } from './htmlgenerator.js';
 
 //functions
-// async function fetchQuestionnaire() {
-//   let name = localStorage.getItem("questionnaire-name");
-//
-//   let url = `/q?name=${name}`;
-//
-//   let response = await fetch(url);
-//   const questionnaire = await response.json();
-//
-//   let myh1 = document.createElement("h1");
-//   myh1.textContent = questionnaire.name;
-//   document.body.prepend(myh1);
-//
-//   questionnaire.questions.forEach(createSection);
-// }
 
 function makeObjectFromQuestionnaire() {
   let object = {};

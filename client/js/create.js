@@ -7,6 +7,11 @@ import {
   fetchQuestionnaire
 } from './htmlgenerator.js';
 
+// imports uniqueName function
+import {
+  uniqueName
+} from './uniqueName.js';
+
 // functions
 
 function edit() {

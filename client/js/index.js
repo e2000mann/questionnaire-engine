@@ -145,6 +145,12 @@ async function download(element, id, ext) {
   }
 }
 
+function viewResults(id, ext) {
+  sessionStorage.addItem("questionnaire-id", id);
+  sessionStorage.addItem("questionnaire-ext", ext);
+  window.location.href = "../results.html";
+}
+
 async function generateHtml(data) {
   const destination = document.querySelector(".hideByDefault");
   const template = document.querySelector("#questionnaire");
@@ -156,18 +162,27 @@ async function generateHtml(data) {
     let nameBox = clone.querySelectorAll("h3")[0];
     nameBox.textContent = questionnaire.name;
     // get buttons
-    const dlButton = clone.querySelectorAll("button")[1];
-    // get download link
+    const buttons = clone.querySelectorAll("button");
+    // button 0 is the edit button
+    const dlButton = buttons[1];
+    const responseButton = buttons[2];
+    // set buttons based on response file extension
     if (questionnaire.json) {
       dlButton.addEventListener("click", function() {
         const a = event.target.parentElement.getElementsByTagName("a")[0];
         download(a, questionnaire.id, "json");
+      });
+      responseButton.addEventListener("click", function() {
+        viewResults(questionnaire.id, "json");
       });
     } else {
       dlButton.addEventListener("click", function() {
         const a = event.target.parentElement.getElementsByTagName("a")[0];
         console.log(a);
         download(a, questionnaire.id, "csv");
+      });
+      responseButton.addEventListener("click", function() {
+        viewResults(questionnaire.id, "csv");
       });
     }
     // destination.children[1] gets 2nd child
