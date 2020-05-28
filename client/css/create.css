@@ -1,0 +1,17 @@
+/* Hides image buttons until needed */
+.questionOptionsHidden {
+  display: none;
+}
+
+.questionOptions {
+  display: inline;
+}
+
+/* Makes image buttons smaller */
+img, source {
+  display: inline-flex;
+  flex-direction: row;
+  max-width: 5em;
+}
+
+/* Responsive CSS */

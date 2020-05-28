@@ -72,14 +72,19 @@ function createLikertScale(question, element) {
   let labels = clone.firstElementChild.getElementsByTagName("label");
 
   if (question.type.includes("numbers")) {
+    // numbers
     fillLabelValues(labels, [1, 2, 3, 4, 5]);
-  } else {
+  } else if (question.type.includes("values")) {
+    // values
     fillLabelValues(labels, ["Very Unsatisfied",
       "Unsatisfied",
       "Neutral",
       "Satisfied",
       "Very Satisfied"
     ]);
+  } else {
+    // emojis
+    fillLabelValues(labels, ["😭", "😪", "😐", "🙂", "😁"]);
   }
 
   element.appendChild(clone);

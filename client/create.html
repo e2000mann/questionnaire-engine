@@ -7,10 +7,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Create Questionnaire</title>
   <link rel="stylesheet" href="../css/core.css">
+  <link rel="stylesheet" href="../css/create.css">
 </head>
 
 <body>
-  <div class="hideByDefault">
+  <!-- Starts off hidden -->
+  <div id="hideByDefault">
     <section class="name">
       <h2>Name your Questionnaire!</h2>
       <input type="text" name="name" value="" placeholder="name">
@@ -23,53 +25,60 @@
       </label>
     </section>
   </div>
-  <section class="buttons">
-    <button type="button" name="addQuestion">Add Question</button>
-    <button type="button" name="submit">Submit</button>
-  </section>
-  <section class="questionOptions">
+  <!-- Starts off hidden -->
+  <section class="questionOptionsHidden">
+    <p>What type of question do you want to add?</p>
     <!-- Picture tags are used to create responsive icons -->
     <!-- based on user's colour scheme preference -->
     <picture id="text">
+      <source media="(prefers-color-scheme: dark)" srcset="images/dark/text.png">
+      <source media="(prefers-color-scheme: light)" srcset="images/light/text.png">
       <img src="images/light/text.png" alt="Text">
-      <source src="images/dark/text.png" media="(prefers-color-scheme: dark)">
-      <source src="images/light/text.png" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
     </picture>
     <picture id="number">
+      <source media="(prefers-color-scheme: dark)" srcset="images/dark/number.png">
+      <source media="(prefers-color-scheme: light)" srcset="images/light/number.png">
       <img src="images/light/number.png" alt="Number">
-      <source src="images/dark/number.png" media="(prefers-color-scheme: dark)">
-      <source src="images/light/number.png" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
     </picture>
     <picture id="single-select">
+      <source media="(prefers-color-scheme: dark)" srcset="images/dark/single-select.png">
+      <source media="(prefers-color-scheme: light)" srcset="images/light/single-select.png">
       <img src="images/light/single-select.png" alt="Single Select">
-      <source src="images/dark/single-select.png" media="(prefers-color-scheme: dark)">
-      <source src="images/light/single-select.png" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
     </picture>
     <picture id="multi-select">
+      <source media="(prefers-color-scheme: dark)" srcset="images/dark/multi-select.png">
+      <source media="(prefers-color-scheme: light)" srcset="images/light/multi-select.png">
       <img src="images/light/multi-select.png" alt="Multi Select">
-      <source src="images/dark/multi-select.png" media="(prefers-color-scheme: dark)">
-      <source src="images/light/multi-select.png" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
     </picture>
     <picture id="image-single-select">
+      <source media="(prefers-color-scheme: dark)" srcset="images/dark/image-single-select.png">
+      <source media="(prefers-color-scheme: light)" srcset="images/light/image-single-select.png">
       <img src="images/light/image-single-select.png" alt="Image Single Select">
-      <source src="images/dark/image-single-select.png" media="(prefers-color-scheme: dark)">
-      <source src="images/light/image-single-select.png" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
     </picture>
     <picture id="image-multi-select">
+      <source media="(prefers-color-scheme: dark)" srcset="images/dark/image-multi-select.png">
+      <source media="(prefers-color-scheme: light)" srcset="images/light/image-multi-select.png">
       <img src="images/light/image-multi-select.png" alt="Image Multi Select">
-      <source src="images/dark/image-multi-select.png" media="(prefers-color-scheme: dark)">
-      <source src="images/light/image-multi-select.png" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
     </picture>
     <picture id="likert-scale-numbers">
+      <source media="(prefers-color-scheme: dark)" srcset="images/dark/likert-scale-numbers.png">
+      <source media="(prefers-color-scheme: light)" srcset="images/light/likert-scale-numbers.png">
       <img src="images/light/likert-scale-numbers.png" alt="Numerical Likert Scale">
-      <source src="images/dark/likert-scale-numbers.png" media="(prefers-color-scheme: dark)">
-      <source src="images/light/likert-scale-numbers.png" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
     </picture>
     <picture id="likert-scale-values">
-      <img src="images/light/likert-scale-.png" alt="Descriptive Likert Scale">
-      <source src="images/dark/likert-scale-values.png" media="(prefers-color-scheme: dark)">
-      <source src="images/light/likert-scale-values.png" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+      <source media="(prefers-color-scheme: dark)" srcset="images/dark/likert-scale-values.png">
+      <source media="(prefers-color-scheme: light)" srcset="images/light/likert-scale-values.png">
+      <img src="images/light/likert-scale-values.png" alt="Very Unsatisfied to Very Satisfied Likert Scale">
     </picture>
+    <picture id="likert-scale-emoji">
+      <source media="(prefers-color-scheme: dark)" srcset="images/dark/likert-scale-emoji.png">
+      <source media="(prefers-color-scheme: light)" srcset="images/light/likert-scale-emoji.png">
+      <img src="images/light/likert-scale-emoji.png" alt="Emoji Likert Scale">
+    </picture>
+  </section>
+  <section class="buttons">
+    <button type="button" name="addQuestion">Add Question</button>
+    <button type="button" name="submit">Submit</button>
   </section>
   <!-- type = "module" allows for input/export to be used in js file -->
   <script src="../js/create.js" type="module"></script>

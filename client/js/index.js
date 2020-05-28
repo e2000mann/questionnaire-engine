@@ -38,14 +38,8 @@ async function loadQuestionnaire() {
 }
 
 function createQuestionnaire() {
-  const userInput = window.prompt("Type in the name of the questionnaire:");
-
-  if (userInput !== null) {
-    sessionStorage.addItem("edit-mode", "false");
-    sessionStorage.addItem("questionnaire-name", userInput);
-
-    window.location.href = "../create.html";
-  }
+  sessionStorage.setItem("edit-mode", "false");
+  window.location.href = "../create.html";
 }
 
 async function uploadJson() {
@@ -84,13 +78,13 @@ async function uploadJson() {
 }
 
 function editQuestionnaire() {
-  sessionStorage.addItem("edit-mode", "true");
+  sessionStorage.setItem("edit-mode", "true");
 
   // should get h3 element
   const nameEle = event.target.parentElement.firstChild;
   const name = nameEle.textContent;
 
-  sessionStorage.addItem("questionnaire-name", name);
+  sessionStorage.setItem("questionnaire-name", name);
 }
 
 // login functionality
@@ -146,8 +140,8 @@ async function download(element, id, ext) {
 }
 
 function viewResults(id, ext) {
-  sessionStorage.addItem("questionnaire-id", id);
-  sessionStorage.addItem("questionnaire-ext", ext);
+  sessionStorage.setItem("questionnaire-id", id);
+  sessionStorage.setItem("questionnaire-ext", ext);
   window.location.href = "../results.html";
 }
 

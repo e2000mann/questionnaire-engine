@@ -10,10 +10,21 @@
   text-align: center;
   font-family: sans-serif;
   background-color: var(--bg-color);
-  font-color: var(--font-color);
+  color: var(--font-color);
+}
+
+button {
+  padding: 1rem;
+  border: solid var(--font-color);
+}
+
+/* Hide authorised-only features */
+#hideByDefault {
+  display: none;
 }
 
 @media (prefers-color-scheme: dark) {
+
   /* variables for dark theme */
   :root {
     --bg-color: #202020;

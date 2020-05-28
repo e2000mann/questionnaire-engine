@@ -14,28 +14,23 @@ import {
 
 // functions
 
-function edit() {
-  const uploadButton = document.getElementsByName("submit")[0];
+function edit(uploadButton) {
   uploadButton.addEventListener("click", upload(true));
-
-
 }
 
-function create() {
+function create(uploadButton) {
   // show options only needed for creating questionnaire
   const hidden = document.querySelector("#hideByDefault");
   hidden.style.display = 'inline';
 
-  const uploadButton = document.getElementsByName("submit")[0];
   uploadButton.addEventListener("click", upload(false));
 }
 
 function createQuestionInput() {
   console.log("add question");
-  let buttons = document.querySelector(".buttons");
-  let template = document.querySelector("#question-form");
-  let clone = template.content.cloneNode(true);
-  document.body.insertBefore(clone, buttons);
+  // show question options
+  const options = document.querySelector(".questionOptionsHidden");
+  options.classList.replace("questionOptionsHidden", "questionOptions");
 }
 
 async function upload(edit) {
@@ -58,12 +53,26 @@ async function upload(edit) {
 
 // Main Code
 window.onload = function() {
-  const addQuestion = document.getElementsByName("addQuestion")[0];
+  const buttons = document.querySelector(".buttons").children;
+  console.log(buttons);
+  // button 0 - add question button
+  buttons[0].addEventListener("click", createQuestionInput);
 
-  addQuestion.addEventListener("click", createQuestionInput);
-
+  // button 1 - upload button
   // using sessionStorage instead of localStorage to reduce amount of data
   // left when session ended
   // json parse turns strings into bool value
-  JSON.parse(sessionStorage.getItem("edit-mode")) ? edit() : create();
+  JSON.parse(sessionStorage.getItem("edit-mode")) ? edit(buttons[1]) : create(buttons[1]);
+
+  const imageButtons = document.getElementsByTagName("picture");
+
+  for (const imageButton of imageButtons) {
+    imageButton.addEventListener("click", function() {
+      console.log(event.target.parentElement.id);
+      // hide questionOptions
+      const options = document.querySelector(".questionOptions");
+      options.classList.replace("questionOptions", "questionOptionsHidden");
+    });
+  }
+
 };
