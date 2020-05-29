@@ -6,6 +6,7 @@
   - Creating questionnaires through JSON or GUI
   - Editing previously made questionnaires
   - Exporting questionnaire answers as either a CSV or JSON file
+    - When creating a questionnaire, user will be prompted to choose between the 2 file formats. This is stored as a boolean variable in the database.
 - Features all users can use:
   - Answer questionnaire
   - Share questionnaire on Facebook or Twitter
