@@ -4,6 +4,13 @@
   font-size: 2em;
 }
 
+/* Boxes to surround each question */
+section {
+  border: solid;
+  margin-bottom: 1em;
+  padding-bottom: 1em;
+}
+
 /* Finds section with a class that ends in "image"*/
 /* Hides checkboxes (can still click them) */
 section[class$="image"]>label>input {

@@ -131,31 +131,41 @@ async function submit() {
   }
 }
 
-function shareFB() {
+function shareFB(quote) {
   let questionnaireName = document.getElementsByTagName("h1")[0];
   let url = window.location.href;
 
   FB.ui({
     method: 'share',
     href: url,
-    quote: `${findRandomQuestion} Answer this and more in this questionnaire!`
+    quote: quote
   }, function(response) {});
 }
 
 //Code to Run when page loads
 function loadFunct() {
+  //initialise facebook API
+  initFB();
+
   //buttons
   const buttons = document.getElementsByTagName("button");
 
   const submitButton = buttons[0];
-  const shareButton = buttons[1];
+  const fbButton = buttons[1];
 
-  //initialise facebook API
-  initFB();
+  let name = sessionStorage.getItem("questionnaire-name");
+  console.log(name);
+  console.log(sessionStorage);
+  const shareQuote = `Have you answered ${name} yet? Do so with this questionnaire engine!`;
 
   //setting button actions
   submitButton.addEventListener("click", submit);
-  shareButton.addEventListener("click", shareFB);
+  fbButton.addEventListener("click", function() {
+    shareFB(shareQuote);
+  });
+
+  const twButton = document.querySelector(".twitter-share-button");
+  twButton.href = `https://twitter.com/intent/tweet?text=${shareQuote}`;
 
   //load questionnaire html
   fetchQuestionnaire();

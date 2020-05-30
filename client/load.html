@@ -13,7 +13,8 @@
 <body>
   <!-- Scripts -->
   <!-- APIs -->
-  <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
+  <div id="fb-root"></div>
+  <script async defer src="https://connect.facebook.net/en_US/all.js"></script>
   <!-- Custom Code -->
   <script src="../js/load.js" type="module"></script>
 
@@ -21,6 +22,9 @@
   <div class="buttons">
     <button type="button" name="shareButton">Submit Answers</button>
     <button type="button" name="fbShare">Share on Facebook!</button>
+    <!-- target _blank means twitter opens in new tab -->
+    <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Hello%20world" target="_blank" data-size="large">
+      Tweet</a>
   </div>
 </body>
 

@@ -14,10 +14,11 @@
   - Text "text"
   - Number "number"
   - Select
-    - Single Select "single-select"
-    - Multi Select "multi-select"
-    - Single Image Select "single-select-image"
-    - Multi Image Select "multi-select-image"
+    - Single/Multi Text Select "single-select" "multi-select"
+    - Single/Multi Image Select "single-select-image" "multi-select-image"
+      - When creating questionnaire using JSON, add images in zip files separated per question.
+      - Creating questionnaire using GUI allows for usual file upload
+      - Accepts png, jpg, gif
   - Likert Scale
     - Numbers "likert-scale-numbers"
       - Gives numbers 1 to 5

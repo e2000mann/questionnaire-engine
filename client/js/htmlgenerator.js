@@ -114,21 +114,33 @@ function makeTextbox(question, element) {
 
 
 function loadImageQuestion(question, element) {
-  let id = localStorage.getItem("questionnaire-id");
-  let imageFolder = `questionnaires/${id}/${question.id}`;
-  let template = document.querySelector("#image-checkbox");
+  const id = localStorage.getItem("questionnaire-id");
+  const imageFolder = `questionnaires/${id}/${question.id}`;
+  const template = document.querySelector("#image-checkbox");
 
   for (const option of question.options) {
-    let clone = template.content.cloneNode(true);
-    let image = clone.querySelectorAll("img")[0];
+    const clone = template.content.cloneNode(true);
+    const image = clone.querySelectorAll("img")[0];
     image.title = option;
     image.alt = option;
-    image.src = `.\\${imageFolder}\\${option}.png`;
+    const fileWOExt = `.\\${imageFolder}\\${option}`;
+    addImageSrc(image, fileWOExt);
     if (question.type.includes("single")) {
       let checkBox = clone.querySelectorAll("input")[0];
       checkBox.addEventListener("click", toggleSelected);
     }
     element.appendChild(clone);
+  }
+}
+
+function addImageSrc(image, fileWOExt) {
+  // this function allows the engine to work with multiple file extensions.
+  image.src = fileWOExt + ".png";
+  image.onerror = () => {
+    image.src = fileWOExt + ".jpg";
+    image.onerror = () => {
+      image.src = fileWOExt + ".gif";
+    }
   }
 }
 

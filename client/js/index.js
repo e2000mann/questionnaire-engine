@@ -8,6 +8,8 @@ async function checkQuestionnaireExists(name) {
       console.log(id);
       if (id != "") {
         localStorage.setItem("questionnaire-id", id);
+        sessionStorage.setItem("questionnaire-name", name);
+        console.log(sessionStorage.getItem("questionnaire-name"));
         return true;
       } else {
         return false;
@@ -99,7 +101,7 @@ async function loadItems(email, name) {
   // add email to sessionstorage
   sessionStorage.setItem("user-email", email);
   // show the items that is only available post-login
-  const hidden = document.querySelector(".hideByDefault");
+  const hidden = document.querySelector("#hideByDefault");
   hidden.style.display = 'inline';
 
   const textBox = document.querySelector("h2");
