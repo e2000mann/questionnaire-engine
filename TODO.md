@@ -13,7 +13,12 @@ Last updated: 28/01/20
 
 - [x] Server
   - [x] that serves the client application
-  - [x] that uses a json file for structuring the questionnaire
+  - [-] that uses a json file for structuring the questionnaire
+    - [x] works for basic questions
+    - [ ] works for optional questions
+      - [ ] images (works but can't be uploaded properly)
+      - [x] likert scales
+    - [x] works for required questions
   - [x] that stores the responses submitted through API
   - [x] that supports a download of the responses in a structured way (json, csv)
     - [x] database has boolean to determine json or csv
@@ -21,15 +26,16 @@ Last updated: 28/01/20
     - [x] responses save to csv
     - [x] downloadable
 
-- [ ] Accessibility
+- [x] Accessibility
   - [x] light/dark mode
-  - [ ] responsive text through whole system
+  - [x] responsive text through whole system
   - [x] favicon
 
 # Optional Features
 - [ ] ability to create questionnaire through GUI
   - [x] create.html created
 - [ ] page that aggregates results and shows them via graphs, averages, etc
+  - [x] results.html created
 - [ ] Support for more complex types of questions:
   - [x] Likert Scales (strongly agree -> strongly disagree scale)
   - [ ] matrices

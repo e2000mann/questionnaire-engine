@@ -154,9 +154,7 @@ function loadFunct() {
   const fbButton = buttons[1];
 
   let name = sessionStorage.getItem("questionnaire-name");
-  console.log(name);
-  console.log(sessionStorage);
-  const shareQuote = `Have you answered ${name} yet? Do so with this questionnaire engine!`;
+  const shareQuote = `Have you answered ${name} yet? Do so with this questionnaire engine! ${window.location.href}`;
 
   //setting button actions
   submitButton.addEventListener("click", submit);

@@ -9,7 +9,6 @@ async function checkQuestionnaireExists(name) {
       if (id != "") {
         localStorage.setItem("questionnaire-id", id);
         sessionStorage.setItem("questionnaire-name", name);
-        console.log(sessionStorage.getItem("questionnaire-name"));
         return true;
       } else {
         return false;

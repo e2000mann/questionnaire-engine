@@ -9,7 +9,7 @@
     - When creating a questionnaire, user will be prompted to choose between the 2 file formats. This is stored as a boolean variable in the database.
 - Features all users can use:
   - Answer questionnaire
-  - Share questionnaire on Facebook or Twitter
+  - Share questionnaire on Facebook* or Twitter
 - Support for the following types of questions:
   - Text "text"
   - Number "number"
@@ -35,3 +35,5 @@
 ## Uploading pre-made JSON files for questionnaire
 - Use the names written next to each type of question in "Features" to specify what each question is.
 - Have each set of images as a zip file. The server will extract & only accept if all the files are images & specified in the JSON.
+
+*This works but because of COVID it can't be taken out of development mode
