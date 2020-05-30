@@ -28,8 +28,9 @@
       - Gives 😭, 😪, 😐, 🙂, 😁
 
 ## How it works
+- Install dependencies (npm install)
 - Database using PSQL (npm run setup)
-- Server using node.js & express (npm server)
+- Server using node.js & express (npm start)
 - Automated testing using QUnit (npm test)
 
 ## Uploading pre-made JSON files for questionnaire
