@@ -1,10 +1,10 @@
 //up887818
 'use strict';
 
-// imports FB initialisation code from apicode.js
-// (no need for google api)
+// imports FB initialisation code & share button code from apicode.js
 import {
-  initFB
+  initFB,
+  shareButtons
 } from './apicode.js';
 
 // imports createSection function from htmlgenerator.js
@@ -131,17 +131,6 @@ async function submit() {
   }
 }
 
-function shareFB(quote) {
-  let questionnaireName = document.getElementsByTagName("h1")[0];
-  let url = window.location.href;
-
-  FB.ui({
-    method: 'share',
-    href: url,
-    quote: quote
-  }, function(response) {});
-}
-
 //Code to Run when page loads
 function loadFunct() {
   //initialise facebook API
@@ -152,18 +141,12 @@ function loadFunct() {
 
   const submitButton = buttons[0];
   const fbButton = buttons[1];
-
-  let name = sessionStorage.getItem("questionnaire-name");
-  const shareQuote = `Have you answered ${name} yet? Do so with this questionnaire engine! ${window.location.href}`;
-
-  //setting button actions
-  submitButton.addEventListener("click", submit);
-  fbButton.addEventListener("click", function() {
-    shareFB(shareQuote);
-  });
-
   const twButton = document.querySelector(".twitter-share-button");
-  twButton.href = `https://twitter.com/intent/tweet?text=${shareQuote}`;
+  const name = sessionStorage.getItem("questionnaire-name");
+
+  submitButton.addEventListener("click", submit);
+  //setup buttons to share
+  shareButtons(name, fbButton, twButton);
 
   //load questionnaire html
   fetchQuestionnaire();

@@ -16,7 +16,7 @@
   <!-- Google API -->
   <script src="https://apis.google.com/js/platform.js" async defer></script>
   <!-- Own Code -->
-  <script src="../js/index.js"></script>
+  <script src="../js/index.js" type="module"></script>
 
   <!-- HTML -->
   <h1> UP887818's Questionnaire Engine </h1>
@@ -45,9 +45,12 @@
     <h3></h3>
     <button type="button" name="edit" onclick="editQuestionnaire()">Edit Questionnaire</button>
     <!-- Download link goes in this tag -->
-    <a href="#"></a>
+    <a class="download" href="#"></a>
     <button type="button" name="download">Download Responses</button>
     <button type="button" name="responses">View Responses</button>
+    <button type="button" name="fbShare" class="fb">Share on Facebook</button>
+    <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Hello%20world" target="_blank" data-size="large">
+      Tweet</a>
   </section>
 </template>
 <template id="createFromJSON">

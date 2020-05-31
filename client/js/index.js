@@ -1,5 +1,12 @@
 'use strict';
 
+// imports FB initialisation code & share button code from apicode.js
+import {
+  initFB,
+  initGoogle,
+  shareButtons
+} from './apicode.js';
+
 async function checkQuestionnaireExists(name) {
   if (!(name === "")) {
     let response = await fetch(`/check?name=${name}`);
@@ -90,6 +97,7 @@ function editQuestionnaire() {
 
 // login functionality
 function onSignIn(googleuser) {
+  console.log("test");
   const profile = googleuser.getBasicProfile();
   const email = profile.getEmail();
   const name = profile.getGivenName();
@@ -147,7 +155,7 @@ function viewResults(id, ext) {
 }
 
 async function generateHtml(data) {
-  const destination = document.querySelector(".hideByDefault");
+  const destination = document.querySelector("#hideByDefault");
   const template = document.querySelector("#questionnaire");
 
   for (const questionnaire of data) {
@@ -161,6 +169,8 @@ async function generateHtml(data) {
     // button 0 is the edit button
     const dlButton = buttons[1];
     const responseButton = buttons[2];
+    const fbButton = buttons[3];
+    const twButton = clone.querySelector("twitter-share-button");
     // set buttons based on response file extension
     if (questionnaire.json) {
       dlButton.addEventListener("click", function() {
@@ -180,7 +190,15 @@ async function generateHtml(data) {
         viewResults(questionnaire.id, "csv");
       });
     }
+    console.log("test");
+    // add share functionality
+    shareButtons(questionnaire.name, fbButton, twButton);
     // destination.children[1] gets 2nd child
     destination.insertBefore(clone, destination.children[1]);
   };
 }
+
+window.addEventListener("load", function() {
+  initFB();
+  initGoogle();
+});

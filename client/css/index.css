@@ -1,5 +1,5 @@
 /* Hide download links */
-a {
+.download {
   display: none;
 }
 

@@ -9,7 +9,7 @@ export function initFB() {
   };
 }
 
-function initGoogle() {
+export function initGoogle() {
   gapi.load('auth2', function() {
     const auth2 = google.auth2.init({
       client_id: '679360714828-n4i9ihe8ip647rbq6ir3djii02v96p88.apps.googleusercontent.com'
@@ -19,8 +19,16 @@ function initGoogle() {
   });
 }
 
-window.onload = function() {
-  // init both APIs
-  initFB();
-  const auth2 = initGoogle();
-};
+export function shareButtons(name, fb, tw) {
+  const quote = `Have you answered ${name} yet? Do so with this questionnaire engine! ${window.location.href}`;
+
+  //setting button actions
+  fb.addEventListener("click", function() {
+    FB.ui({
+      method: 'share',
+      href: window.location.href,
+      quote: quote
+    }, function(response) {});
+  });
+  tw.href = `https://twitter.com/intent/tweet?text=${quote}`;
+}
