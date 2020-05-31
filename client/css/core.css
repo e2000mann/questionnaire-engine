@@ -13,8 +13,11 @@
   color: var(--font-color);
 }
 
-button {
-  padding: 1rem;
+/* a tag is mainly used for download links (in index.css hidden), and tweet buttons */
+button, a {
+  font-size: 1em;
+  text-decoration: none;
+  padding: 0.5rem;
   border: solid var(--font-color);
 }
 

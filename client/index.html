@@ -34,8 +34,7 @@
       <p>Use the provided GUI or upload your own JSON</p>
       <button type="button" name="create" onclick="createQuestionnaire()">Create Questionnaire</button>
       <section>
-        <input id=jsonFile type=file accept="application/json">
-        <button type="button" name="upload" onclick="uploadJson()">Upload JSON</button>
+        <label><input id=jsonFile type=file accept="application/json">Upload JSON</label>
       </section>
     </section>
   </section>
@@ -54,16 +53,18 @@
   </section>
 </template>
 <template id="createFromJSON">
+  <p>Thanks! Just a few more things.</p>
   <section>
     <p>Store my responses in...</p>
-    <label><input type="checkbox">JSON</label>
-    <label><input type="checkbox">CSV</label>
+    <label><input type="radio" value="true" name="jsonCheck" checked>JSON</label>
+    <label><input type="radio" value="true" name="jsonCheck">CSV</label>
+    <button type="button" name="submit" id="submitButton">Submit</button>
   </section>
 </template>
 
 <template id="imageUpload">
-  <p>Please upload the images for QUESTION in QUESTION.zip</p>
-  <input type="file" accept="application/x-zip-compressed">
+  <p>Please upload the images for QUESTION</p>
+  <input type="file" accept="image/png, image/jpeg, image/gif" multiple>
 </template>
 
 </html>

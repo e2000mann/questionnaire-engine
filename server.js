@@ -172,9 +172,42 @@ function uploadCsv(id, response) {
 
 
 // for get /create
+async function uniqueName(name) {
+  // giving each questionnaire a unique name keeps my load function working :)
+  let validName = false;
+  let attempts = 0;
+  let testName = "";
+
+  while (!validName) {
+    // e.g. If someone tries to make a questionnaire named "Example Questionnaire"
+    // it would instead be called "Example Questionnaire 1"
+    attempts == 0 ? testName = name : testName = `${name} ${attempts}`;
+    console.log(testName);
+    const query = {
+      text: 'SELECT id FROM up887818web WHERE name = $1',
+      values: [testName]
+    };
+    try {
+      let testResult = await sendQuery(query, "one");
+      if (testResult != null) {
+        attempts++;
+      } else {
+        validName = true;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  return testName;
+}
+
 async function addQuestionnaire(req, res) {
   const data = JSON.parse(req.query.data);
-  const name = data.name;
+  const name = uniqueName(data.name);
+  console.log(name);
+  data.name = name;
+  console.log(data.name);
   const userEmail = req.query.email;
   const json = req.query.json;
   const id = uuid();

@@ -6,8 +6,6 @@
 
 export function createSection(q) {
   const buttons = document.querySelector(".buttons");
-  // let template = document.querySelector("#section");
-  // const qElement = template.content.cloneNode(true);
   const qElement = document.createElement("section");
   qElement.id = q.id;
   qElement.classList.add(q.type);

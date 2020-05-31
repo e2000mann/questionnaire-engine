@@ -47,43 +47,49 @@ function createQuestionnaire() {
 async function uploadJson() {
   // first check to see if there is a json file
   const jsonFile = document.querySelector("#jsonFile").files[0];
-  if (jsonFile == null) {
-    window.alert("You haven't uploaded a json file!");
-  } else {
-    // reading file incase there's any image questions
-    const reader = new FileReader();
-    reader.readAsText(jsonFile);
+  const reader = new FileReader();
+  reader.readAsText(jsonFile);
 
-    reader.onload = async function(event) {
-      const data = reader.result;
-      console.log(data);
-      // get users response choice
-      const userInput = window.prompt("Do you want the responses in CSV or JSON?");
-      let jsonChoice = false;
+  reader.onload = async function(event) {
+    const data = reader.result;
+    console.log(data);
+    // get users response choice
+    const template = document.querySelector("#createFromJSON");
+    const clone = template.content.cloneNode(true);
 
-      if (userInput !== null) {
-        if (userInput.toLowerCase() == "json") {
-          jsonChoice = true;
-        }
-      }
+    const submitButton = clone.querySelector("submitButton");
+    submitButton.addEventListener("click", function() {
+      confirmSubmission(data);
+    });
+  }
+}
 
-      // get email
-      const email = sessionStorage.getItem("user-email");
+async function confirmSubmission(data) {
+  const userInput = window.prompt("Do you want the responses in CSV or JSON?");
+  let jsonChoice = false;
 
-      // todo: get this to work with images
-
-      // upload to server & database
-      const url = `/create?data=${data}&email=${email}&json=${jsonChoice}`;
-      let response = await fetch(url, {
-        method: 'POST'
-      });
-      if (response.ok) {
-        window.alert("Thanks for uploading a questionnaire!");
-      } else {
-        window.alert("There has been an error. Please try again later.");
-      }
+  if (userInput !== null) {
+    if (userInput.toLowerCase() == "json") {
+      jsonChoice = true;
     }
   }
+
+  // get email
+  const email = sessionStorage.getItem("user-email");
+
+  // todo: get this to work with images
+
+  // upload to server & database
+  const url = `/create?data=${data}&email=${email}&json=${jsonChoice}`;
+  let response = await fetch(url, {
+    method: 'POST'
+  });
+  if (response.ok) {
+    window.alert("Thanks for uploading a questionnaire!");
+  } else {
+    window.alert("There has been an error. Please try again later.");
+  }
+}
 }
 
 function editQuestionnaire() {
@@ -208,4 +214,7 @@ window.addEventListener("load", function() {
     .then(module => {
       module.initFB();
     });
+
+  const jsonUpload = document.querySelector("#jsonFile");
+  jsonUpload.addEventListener("change", uploadJson);
 });
