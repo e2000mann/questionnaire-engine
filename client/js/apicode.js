@@ -9,16 +9,6 @@ export function initFB() {
   };
 }
 
-export function initGoogle() {
-  gapi.load('auth2', function() {
-    const auth2 = google.auth2.init({
-      client_id: '679360714828-n4i9ihe8ip647rbq6ir3djii02v96p88.apps.googleusercontent.com'
-    });
-
-    return auth2;
-  });
-}
-
 export function shareButtons(name, fb, tw) {
   const quote = `Have you answered ${name} yet? Do so with this questionnaire engine! ${window.location.href}`;
 

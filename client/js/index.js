@@ -1,14 +1,32 @@
 'use strict';
 
-// imports FB initialisation code & share button code from apicode.js
-import {
-  initFB,
-  initGoogle,
-  shareButtons
-} from './apicode.js';
+function initFB() {
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId: '710291289713662',
+      autoLogAppEvents: true,
+      xfbml: true,
+      version: 'v6.0'
+    });
+  };
+}
+
+function shareButtons(name, fb, tw) {
+  const quote = `Have you answered ${name} yet? Do so with this questionnaire engine! ${window.location.href}`;
+
+  //setting button actions
+  fb.addEventListener("click", function() {
+    FB.ui({
+      method: 'share',
+      href: window.location.href,
+      quote: quote
+    }, function(response) {});
+  });
+  tw.href = `https://twitter.com/intent/tweet?text=${quote}`;
+}
 
 async function checkQuestionnaireExists(name) {
-  if (!(name === "")) {
+  if (name !== "") {
     let response = await fetch(`/check?name=${name}`);
     if (response.ok) {
       const id = await response.text();
@@ -54,14 +72,14 @@ async function uploadJson() {
   // first check to see if there is a json file
   const jsonFile = document.querySelector("jsonFile").files[0];
   if (jsonFile == null) {
-    window.alert("You haven't uploaded a json file!")
+    window.alert("You haven't uploaded a json file!");
   } else {
     const openJson = JSON.parse(jsonFile);
     // get users response choice
     const userInput = window.prompt("Do you want the responses in CSV or JSON?");
+    const jsonChoice = false;
 
     if (userInput !== null) {
-      const jsonChoice = false;
       if (userInput.toLowerCase() == "json") {
         jsonChoice = true;
       }
@@ -97,7 +115,6 @@ function editQuestionnaire() {
 
 // login functionality
 function onSignIn(googleuser) {
-  console.log("test");
   const profile = googleuser.getBasicProfile();
   const email = profile.getEmail();
   const name = profile.getGivenName();
@@ -121,7 +138,7 @@ async function loadItems(email, name) {
   if (response.ok) {
     const data = await response.json();
     generateHtml(data);
-  };
+  }
 }
 
 async function download(element, id, ext) {
@@ -170,7 +187,7 @@ async function generateHtml(data) {
     const dlButton = buttons[1];
     const responseButton = buttons[2];
     const fbButton = buttons[3];
-    const twButton = clone.querySelector("twitter-share-button");
+    const twButton = clone.querySelector(".twitter-share-button");
     // set buttons based on response file extension
     if (questionnaire.json) {
       dlButton.addEventListener("click", function() {
@@ -190,15 +207,11 @@ async function generateHtml(data) {
         viewResults(questionnaire.id, "csv");
       });
     }
-    console.log("test");
     // add share functionality
     shareButtons(questionnaire.name, fbButton, twButton);
     // destination.children[1] gets 2nd child
     destination.insertBefore(clone, destination.children[1]);
-  };
+  }
 }
 
-window.addEventListener("load", function() {
-  initFB();
-  initGoogle();
-});
+window.addEventListener("load", initFB());
