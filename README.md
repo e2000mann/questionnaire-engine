@@ -16,9 +16,6 @@
   - Select
     - Single/Multi Text Select "single-select" "multi-select"
     - Single/Multi Image Select "single-select-image" "multi-select-image"
-      - When creating questionnaire using JSON, add images in zip files separated per question.
-      - Creating questionnaire using GUI allows for usual file upload
-      - Accepts png, jpg, gif
   - Likert Scale
     - Numbers "likert-scale-numbers"
       - Gives numbers 1 to 5
@@ -35,6 +32,6 @@
 
 ## Uploading pre-made JSON files for questionnaire
 - Use the names written next to each type of question in "Features" to specify what each question is.
-- Have each set of images as a zip file. The server will extract & only accept if all the files are images & specified in the JSON.
+- For image questions write the filenames (w/o extension) in "options". Allowed image types are png, jpg & gif. Make sure the filenames are descriptive of the image as they are used for accessibility purposes. 
 
 *This works but because of COVID it can't be taken out of development mode
