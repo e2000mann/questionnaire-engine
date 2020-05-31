@@ -45,6 +45,13 @@ Last updated: 28/01/20
 - [x] support for required questions
 - [x] security based on OAuth (google acc) authentication
   - [x] check if user is owner of questionnaire based on their email address
+- [x] share questionnaire on social media
+  - [x] in load.html
+    - [x] fb
+    - [x] twitter
+  - [x] in index.html
+    - [x] fb
+    - [x] twitter
 
 # Other
 client/questionnaires/4d87e050-e74f-4de7-a144-6c76dac3622e

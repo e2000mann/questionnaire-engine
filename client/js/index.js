@@ -1,29 +1,5 @@
+//up887818
 'use strict';
-
-function initFB() {
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId: '710291289713662',
-      autoLogAppEvents: true,
-      xfbml: true,
-      version: 'v6.0'
-    });
-  };
-}
-
-function shareButtons(name, fb, tw) {
-  const quote = `Have you answered ${name} yet? Do so with this questionnaire engine! ${window.location.href}`;
-
-  //setting button actions
-  fb.addEventListener("click", function() {
-    FB.ui({
-      method: 'share',
-      href: window.location.href,
-      quote: quote
-    }, function(response) {});
-  });
-  tw.href = `https://twitter.com/intent/tweet?text=${quote}`;
-}
 
 async function checkQuestionnaireExists(name) {
   if (name !== "") {
@@ -70,35 +46,42 @@ function createQuestionnaire() {
 
 async function uploadJson() {
   // first check to see if there is a json file
-  const jsonFile = document.querySelector("jsonFile").files[0];
+  const jsonFile = document.querySelector("#jsonFile").files[0];
   if (jsonFile == null) {
     window.alert("You haven't uploaded a json file!");
   } else {
-    const openJson = JSON.parse(jsonFile);
-    // get users response choice
-    const userInput = window.prompt("Do you want the responses in CSV or JSON?");
-    const jsonChoice = false;
+    // reading file incase there's any image questions
+    const reader = new FileReader();
+    reader.readAsText(jsonFile);
 
-    if (userInput !== null) {
-      if (userInput.toLowerCase() == "json") {
-        jsonChoice = true;
+    reader.onload = async function(event) {
+      const data = reader.result;
+      console.log(data);
+      // get users response choice
+      const userInput = window.prompt("Do you want the responses in CSV or JSON?");
+      let jsonChoice = false;
+
+      if (userInput !== null) {
+        if (userInput.toLowerCase() == "json") {
+          jsonChoice = true;
+        }
       }
-    }
 
-    // get email
-    const email = sessionStorage.getItem("user-email");
+      // get email
+      const email = sessionStorage.getItem("user-email");
 
-    // todo: get this to work with images
+      // todo: get this to work with images
 
-    // upload to server & database
-    const url = `/create?data=${openJson}&email=${email}&json=${jsonChoice}`;
-    let response = await fetch(url, {
-      method: 'POST'
-    });
-    if (response.ok) {
-      window.alert("Thanks for uploading a questionnaire!");
-    } else {
-      window.alert("There has been an error. Please try again later.");
+      // upload to server & database
+      const url = `/create?data=${data}&email=${email}&json=${jsonChoice}`;
+      let response = await fetch(url, {
+        method: 'POST'
+      });
+      if (response.ok) {
+        window.alert("Thanks for uploading a questionnaire!");
+      } else {
+        window.alert("There has been an error. Please try again later.");
+      }
     }
   }
 }
@@ -172,6 +155,7 @@ function viewResults(id, ext) {
 }
 
 async function generateHtml(data) {
+  const apiCode = import('./apicode.js');
   const destination = document.querySelector("#hideByDefault");
   const template = document.querySelector("#questionnaire");
 
@@ -208,10 +192,20 @@ async function generateHtml(data) {
       });
     }
     // add share functionality
-    shareButtons(questionnaire.name, fbButton, twButton);
+    import('./apicode.js')
+      .then(module => {
+        module.shareButtons(questionnaire.name, fbButton, twButton);
+      });
     // destination.children[1] gets 2nd child
     destination.insertBefore(clone, destination.children[1]);
   }
 }
 
-window.addEventListener("load", initFB());
+window.addEventListener("load", function() {
+  // note: dynamic importing is being used because typing type="module" in
+  // the html script tag broke oauth.
+  import('./apicode.js')
+    .then(module => {
+      module.initFB();
+    });
+});

@@ -174,20 +174,29 @@ function uploadCsv(id, response) {
 // for get /create
 async function addQuestionnaire(req, res) {
   const data = JSON.parse(req.query.data);
-  const name = json.name;
+  const name = data.name;
   const userEmail = req.query.email;
   const json = req.query.json;
   const id = uuid();
   // upload data as file
-  const jsonLocation = `client/questionnaires/${id}/${id.json}`;
-  fs.appendFile(jsonLocation, data, function(err) {
-    reject("error in writing file");
+  const jsonDir = `client/questionnaires/${id}`;
+  fs.mkdir(jsonDir, {
+    recursive: true
+  }, function(err) {
+    if (err) throw err;
+  });
+  const jsonLocation = `${jsonDir}/${id}.json`;
+  fs.writeFile(jsonLocation, JSON.stringify(data), {
+    flag: 'w'
+  }, function(err) {
+    if (err) throw err;
+    console.log("wrote to file");
   });
 
   // add new field to database
   const query = {
-    text: "INSERT into up887818 values ($1, $2, $3);",
-    values: [id, userEmail, json]
+    text: "INSERT into up887818web values ($1, $2, $3, $4);",
+    values: [id, name, userEmail, json]
   };
   await sendQuery(query, "none");
 }
@@ -200,7 +209,7 @@ async function editQuestionnaire(req, res) {
   // upload data as file
   const jsonLocation = `client/questionnaires/${name}/${name.json}`;
   fs.appendFile(jsonLocation, data, function(err) {
-    reject("error in writing file");
+    console.log(err);
   });
 }
 
