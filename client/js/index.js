@@ -74,8 +74,18 @@ async function uploadJson() {
   }
 }
 
+async function getUuid() {
+  let response = await fetch(`/uuid`);
+  if (response.ok) {
+    return response.text();
+  }
+}
+
 async function confirmSubmission(data) {
   console.log(data);
+  // get uuid
+  const id = await getUuid();
+
   // get preferred response format
   const jsonChoice = document.querySelector('input[name="jsonCheck"]:checked').value;
   console.log(jsonChoice);
@@ -83,22 +93,31 @@ async function confirmSubmission(data) {
   // get email
   const email = sessionStorage.getItem("user-email");
 
-  // todo: get this to work with images
+  // gets image uploads
+  const imageSections = document.querySelectorAll(".create>section");
+  console.log(imageSections);
 
-  // upload to server & database
-  const url = `/create?email=${email}&json=${jsonChoice}`;
-  let response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: data
-  });
-  if (response.ok) {
-    window.alert(`Your questionnaire ${await response.text()} has been uploaded.`);
+  if (imageSections.length > 0) {
+    console.log("images");
   } else {
-    window.alert("There has been an error. Please try again later.");
+    console.log("no images");
+    // upload to server & database
+    const url = `/create?id=${id}&email=${email}&json=${jsonChoice}`;
+    let response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: data
+    });
+    if (response.ok) {
+      window.alert(`Your questionnaire ${await response.text()} has been uploaded.`);
+    } else {
+      window.alert("There has been an error. Please try again later.");
+    }
   }
+
+
 }
 
 function checkForImages(questions, dest) {

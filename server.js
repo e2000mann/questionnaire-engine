@@ -4,6 +4,8 @@
 //Libraries
 const express = require('express');
 const fs = require('fs');
+const multer = require('multer');
+const upload = multer();
 
 //Server
 const app = express();
@@ -214,7 +216,7 @@ async function addQuestionnaire(req, res) {
   console.log(data.name);
   const userEmail = req.query.email;
   const json = req.query.json;
-  const id = uuid();
+  const id = req.query.id;
   // upload data as file
   const jsonDir = `client/questionnaires/${id}`;
   fs.mkdir(jsonDir, {
@@ -239,6 +241,10 @@ async function addQuestionnaire(req, res) {
   res.send(name);
 }
 
+function addImages(req, res) {
+  return;
+}
+
 
 // for get /edit
 async function editQuestionnaire(req, res) {
@@ -259,10 +265,17 @@ app.get('/check', checkQuestionnaireExists);
 app.get('/load', getQuestionnaire);
 // check if responses exists
 app.get('/checkForResponses', checkForResponses);
+// get uuid
+app.get('/uuid', (req, res) => {
+  res.send(uuid());
+});
 
 // post requests (sending data)
 app.post('/submit', express.json(), uploadResults);
+
 app.post('/create', express.json(), addQuestionnaire);
+app.post('/images', upload.array('images'), addImages);
+
 app.post('/edit', editQuestionnaire);
 
 app.listen(8080);
