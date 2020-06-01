@@ -1,19 +1,7 @@
 //up887818
 'use strict';
 
-// imports createSection function from htmlgenerator.js
-import {
-  createSection,
-  fetchQuestionnaire
-} from './htmlgenerator.js';
-
-// imports uniqueName function
-import {
-  uniqueName
-} from './uniqueName.js';
-
 // functions
-
 function edit(uploadButton) {
   uploadButton.addEventListener("click", upload(true));
 }
@@ -33,22 +21,95 @@ function createQuestionInput() {
   options.classList.replace("questionOptionsHidden", "questionOptions");
 }
 
+async function getUuid() {
+  let response = await fetch(`/uuid`);
+  if (response.ok) {
+    return response.text();
+  }
+}
+
+function getData() {
+  let data = {};
+  data.name = document.querySelector("#name").textContent;
+  data.questions = [];
+
+  const questions = document.querySelector(".questions").querySelectorAll("section");
+  for (const question of questions) {
+    let output = {};
+    output.id = question.querySelector(".id").value;
+    output.type = question.id;
+    output.text = question.querySelector(".text").value;
+    output.required = question.querySelector(".required").checked.toString();
+    if (question.id.includes("select")) {
+      output.options = [];
+      if (question.id.includes("image")) {
+        console.log("image");
+      } else {
+        const options = question.getElementsByTagName("div");
+        for (const option of options) {
+          const input = option.querySelector("input");
+          output.options.append(input.value);
+        }
+      }
+    }
+    data.questions.append(output);
+  }
+}
+
 async function upload(edit) {
   // get questions first
   const data = {};
   let url = '';
   // if creating questionnaire
   if (!edit) {
-    // uuid generated in server.js
+    const id = await getUuid();
     const email = sessionStorage.getItem("user-email");
-    const exportOption = document.querySelector("#exportOption");
-    const json = exportOption.selected;
-    // selected = json, unselected = csv
-    url = `/create?data=${data}&email=${email}&json=${json}`;
-  } else {
-    url = `/edit?data=${data}`;
+    const jsonChoice = document.querySelector('input[name="jsonCheck"]:checked').value;
+
+    const data = getData();
+
+    url = `/create?id=${id}&email=${email}&json=${json}`;
   }
-  let response = await fetch(url);
+  let response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: data
+  });
+  if (response.ok) {
+    window.alert(`Your questionnaire ${await response.text()} has been uploaded.`);
+  } else {
+    window.alert("There has been an error. Please try again later.");
+  }
+}
+
+function showQuestion(id) {
+  let template;
+  if (!id.includes("select")) {
+    template = document.querySelector("#basic");
+  } else if (id.includes("image")) {
+    template = document.querySelector("#imageUpload");
+  } else {
+    template = document.querySelector("#checkbox");
+  }
+  const clone = template.content.cloneNode(true);
+  clone.querySelector("section").classList.add(id);
+
+  const dest = document.querySelector(".questions");
+  dest.appendChild(clone);
+}
+
+function addOption(event) {
+  const template = document.querySelector("#checkboxOption");
+  const dest = event.target.parentElement;
+  const clone = template.content.cloneNode(true);
+  dest.insertBefore(clone, event.target);
+}
+
+function deleteQ(event) {
+  const target = event.target.parentElement;
+  target.remove();
 }
 
 // Main Code
@@ -68,7 +129,7 @@ window.onload = function() {
 
   for (const imageButton of imageButtons) {
     imageButton.addEventListener("click", function() {
-      console.log(event.target.parentElement.id);
+      showQuestion(event.target.parentElement.id);
       // hide questionOptions
       const options = document.querySelector(".questionOptions");
       options.classList.replace("questionOptions", "questionOptionsHidden");

@@ -14,37 +14,6 @@ import {
 
 //functions
 
-function makeObjectFromQuestionnaire() {
-  let object = {};
-
-  object.name = document.getElementsByTagName("h1")[0].textContent;
-
-  object.questions = [];
-  let questions = document.getElementsByTagName("section");
-
-  for (const question of questions) {
-    let info = {};
-    info.id = question.id;
-    if (question.classList.contains("select")) {
-      info.answers = findCheckedBoxes(question);
-    } else {
-      let answer = question.querySelector("input");
-      info.answers = answer.value;
-      console.log(object);
-    }
-
-    object.questions.push(info);
-  }
-
-  console.log(object);
-  return object;
-}
-
-
-function findCheckedBoxes(q) {
-  return "test";
-}
-
 // this function is the same as the "noneSelected" function in htmlgenerator.js
 function checkBoxAnswers(section) {
   const options = section.getElementsByTagName("label");

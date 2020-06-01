@@ -8,7 +8,6 @@ const multer = require('multer');
 const upload = multer({
   dest: 'uploads'
 });
-const path = require('path');
 
 //Server
 const app = express();

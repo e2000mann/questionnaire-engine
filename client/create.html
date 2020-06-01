@@ -11,20 +11,23 @@
 </head>
 
 <body>
+  <script src="../js/create.js"></script>
   <!-- Starts off hidden -->
   <div id="hideByDefault">
     <section class="name">
       <h2>Name your Questionnaire!</h2>
-      <input type="text" name="name" value="" placeholder="name">
+      <input type="text" name="name" value="" placeholder="name" id="name">
     </section>
-    <section class="exportOptions">
-      <h2>Allow me to export the responses by...</h2>
-      <label>
-        <input id="exportOption" type="checkbox" name="" value="json">
-        <p>JSON/CSV</p>
-      </label>
-    </section>
+    <form>
+      <p>Store my responses in...</p>
+      <input type="radio" value="true" name="temp" id="json" checked>
+      <label for="json">JSON</label>
+      <input type="radio" value="false" name="temp" id="csv">
+      <label for="csv">CSV</label>
+    </form>
   </div>
+  <section class="questions">
+  </section>
   <!-- Starts off hidden -->
   <section class="questionOptionsHidden">
     <p>What type of question do you want to add?</p>
@@ -80,60 +83,11 @@
     <button type="button" name="addQuestion">Add Question</button>
     <button type="button" name="submit">Submit</button>
   </section>
-  <!-- type = "module" allows for input/export to be used in js file -->
-  <script src="../js/create.js" type="module"></script>
 </body>
 
 <!-- templates -->
-<template id="section">
-  <section>
-    <button type="button" name="delete">Delete Question</button>
-  </section>
-</template>
-
-<template id="singleOrMulti">
-  <label>
-    <input type="checkbox" name="" value="true">
-    <p>Allow Multiple Answers</p>
-  </label>
-</template>
-
-<template id="text-checkbox">
-  <label>
-    <input type="checkbox"></input>
-    <p></p>
-  </label>
-</template>
-
-<template id="image-checkbox">
-  <label>
-    <input type="checkbox"></input>
-    <img></img>
-  </label>
-</template>
-
-<template id="likert-scale">
-  <!-- can either be used 1-5 or "very unsatisfied"-"very satisfied"-->
-  <div>
-    <label>
-      <input type="checkbox"></input>
-    </label>
-    <label>
-      <input type="checkbox"></input>
-    </label>
-    <label>
-      <input type="checkbox"></input>
-    </label>
-    <label>
-      <input type="checkbox"></input>
-    </label>
-    <label>
-      <input type="checkbox"></input>
-    </label>
-  </div>
-</template>
-
-<template id="question-form">
+<!-- Suitable for text, number, and likert scales -->
+<template id="basic">
   <section>
     <h2>New Question</h2>
     <label>
@@ -148,6 +102,56 @@
       Required:
       <input type="checkbox" class="required"></input>
     </label>
+    <button type="button" name="delete" onclick="deleteQ(event)">Delete Question</button>
+  </section>
+</template>
+
+<!-- For regular select questions -->
+<template id="checkbox">
+  <section>
+    <h2>New Question</h2>
+    <label>
+      ID:
+      <input type="text" class="id"></input>
+    </label>
+    <label>
+      Question:
+      <input type="text" class="text"></input>
+    </label>
+    <label>
+      Required:
+      <input type="checkbox" class="required"></input>
+    </label>
+    <button type="button" name="addOption" onclick="addOption(event)">Add Option</button>
+    <button type="button" name="delete" onclick="deleteQ(event)">Delete Question</button>
+  </section>
+</template>
+
+<template id="checkboxOption">
+  <div>
+    <input type="text" placeholder="option">
+    <button type="button" name="delete" onclick="deleteQ(event)">Delete option</button>
+  </div>
+</template>
+
+<!-- For regular select questions -->
+<template id="imageUpload">
+  <section>
+    <h2>New Question</h2>
+    <label>
+      ID:
+      <input type="text" class="id"></input>
+    </label>
+    <label>
+      Question:
+      <input type="text" class="text"></input>
+    </label>
+    <label>
+      Required:
+      <input type="checkbox" class="required"></input>
+    </label>
+    <input type="file" name="images" accept="image/png, image/jpeg, image/gif" multiple>
+    <button type="button" name="delete" onclick="deleteQ(event)">Delete Question</button>
   </section>
 </template>
 
