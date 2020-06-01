@@ -57,10 +57,15 @@ async function uploadJson() {
     const template = document.querySelector("#createFromJSON");
     const clone = template.content.cloneNode(true);
 
-    const submitButton = clone.querySelector("submitButton");
+    const submitButton = clone.querySelector("#submitButton");
     submitButton.addEventListener("click", function() {
       confirmSubmission(data);
     });
+
+    const dest = document.querySelector(".create");
+    dest.appendChild(clone);
+
+    checkForImages(JSON.parse(data).questions, dest);
   }
 }
 
@@ -90,6 +95,19 @@ async function confirmSubmission(data) {
     window.alert("There has been an error. Please try again later.");
   }
 }
+
+function checkForImages(questions, dest) {
+  const template = document.querySelector("#imageUpload");
+  console.log(dest);
+
+  for (const question of questions) {
+    if (question.type.includes("image")) {
+      const clone = template.content.cloneNode(true);
+      clone.querySelector("section").id = question.id;
+      clone.querySelector("label").textContent = `Please upload the images for ${question.id}`;
+      dest.insertBefore(clone, dest.lastElementChild);
+    }
+  }
 }
 
 function editQuestionnaire() {
