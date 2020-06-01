@@ -28,10 +28,9 @@
 - Install dependencies (npm install)
 - Database using PSQL (npm run setup)
 - Server using node.js & express (npm start)
-- Automated testing using QUnit (npm test)
 
 ## Uploading pre-made JSON files for questionnaire
 - Use the names written next to each type of question in "Features" to specify what each question is.
-- For image questions write the filenames (w/o extension) in "options". Allowed image types are png, jpg & gif. Make sure the filenames are descriptive of the image as they are used for accessibility purposes. 
+- For image questions write the filenames (w/o extension) in "options". Allowed image types are png, jpg & gif. Make sure the filenames are descriptive of the image as they are used for accessibility purposes.
 
 *This works but because of COVID it can't be taken out of development mode

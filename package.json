@@ -12,7 +12,6 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "qunit test.js",
     "start": "node server.js",
     "setup": "createdb up887818web && psql up887818web < setup.sql"
   },

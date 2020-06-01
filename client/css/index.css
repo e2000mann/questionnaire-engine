@@ -18,3 +18,15 @@
   margin-bottom: 1em;
   padding-bottom: 1em;
 }
+
+.links {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+@media (max-width: 40em) {
+  .links {
+    flex-direction: column;
+  }
+}

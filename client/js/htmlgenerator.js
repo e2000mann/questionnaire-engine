@@ -121,8 +121,7 @@ function loadImageQuestion(question, element) {
     const image = clone.querySelectorAll("img")[0];
     image.title = option;
     image.alt = option;
-    const fileWOExt = `.\\${imageFolder}\\${option}`;
-    addImageSrc(image, fileWOExt);
+    addImageSrc(image, imageFolder, option);
     if (question.type.includes("single")) {
       let checkBox = clone.querySelectorAll("input")[0];
       checkBox.addEventListener("click", toggleSelected);
@@ -131,13 +130,19 @@ function loadImageQuestion(question, element) {
   }
 }
 
-function addImageSrc(image, fileWOExt) {
+function addImageSrc(imgEl, imageFolder, fileName) {
   // this function allows the engine to work with multiple file extensions.
-  image.src = fileWOExt + ".png";
-  image.onerror = () => {
-    image.src = fileWOExt + ".jpg";
-    image.onerror = () => {
-      image.src = fileWOExt + ".gif";
+  imgEl.src = `.\\${imageFolder}\\${fileName}.png`;
+  imgEl.onerror = () => {
+    imgEl.src = `.\\${imageFolder}\\${fileName}.jpg`;
+    imgEl.onerror = () => {
+      imgEl.src = `.\\${imageFolder}\\${fileName}.jpg`
+      imgEl.onerror = () => {
+        // if none of the file extensions work, change img into text
+        const textEl = document.createElement("p");
+        textEl.textContent = fileName;
+        imgEl.parentNode.replaceChild(textEl, imgEl);
+      }
     }
   }
 }
@@ -173,6 +178,8 @@ function noneSelected(section) {
   return true;
 }
 
+// unchecking the boxes using javascript does not update it visually unless
+// this function is called
 function correctCheckboxes(section) {
   let options = section.getElementsByTagName("label");
   for (const option of options) {

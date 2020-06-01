@@ -40,7 +40,6 @@ async function loadQuestionnaire() {
 }
 
 function createQuestionnaire() {
-  sessionStorage.setItem("edit-mode", "false");
   window.location.href = "../create.html";
 }
 
@@ -159,16 +158,6 @@ function checkForImages(questions, dest) {
   }
 }
 
-function editQuestionnaire() {
-  sessionStorage.setItem("edit-mode", "true");
-
-  // should get h3 element
-  const nameEle = event.target.parentElement.firstChild;
-  const name = nameEle.textContent;
-
-  sessionStorage.setItem("questionnaire-name", name);
-}
-
 // login functionality
 function onSignIn(googleuser) {
   const profile = googleuser.getBasicProfile();
@@ -240,10 +229,8 @@ async function generateHtml(data) {
     nameBox.textContent = questionnaire.name;
     // get buttons
     const buttons = clone.querySelectorAll("button");
-    // button 0 is the edit button
-    const dlButton = buttons[1];
-    const responseButton = buttons[2];
-    const fbButton = buttons[3];
+    const dlButton = buttons[0];
+    const fbButton = buttons[1];
     const twButton = clone.querySelector(".twitter-share-button");
     // set buttons based on response file extension
     if (questionnaire.json) {
@@ -251,17 +238,11 @@ async function generateHtml(data) {
         const a = event.target.parentElement.getElementsByTagName("a")[0];
         download(a, questionnaire.id, "json");
       });
-      responseButton.addEventListener("click", function() {
-        viewResults(questionnaire.id, "json");
-      });
     } else {
       dlButton.addEventListener("click", function() {
         const a = event.target.parentElement.getElementsByTagName("a")[0];
         console.log(a);
         download(a, questionnaire.id, "csv");
-      });
-      responseButton.addEventListener("click", function() {
-        viewResults(questionnaire.id, "csv");
       });
     }
     // add share functionality

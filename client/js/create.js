@@ -2,18 +2,6 @@
 'use strict';
 
 // functions
-function edit(uploadButton) {
-  uploadButton.addEventListener("click", upload(true));
-}
-
-function create(uploadButton) {
-  // show options only needed for creating questionnaire
-  const hidden = document.querySelector("#hideByDefault");
-  hidden.style.display = 'inline';
-
-  uploadButton.addEventListener("click", upload(false));
-}
-
 function createQuestionInput() {
   console.log("add question");
   // show question options
@@ -29,59 +17,70 @@ async function getUuid() {
 }
 
 function getData() {
-  let data = {};
-  data.name = document.querySelector("#name").textContent;
-  data.questions = [];
 
-  const questions = document.querySelector(".questions").querySelectorAll("section");
-  for (const question of questions) {
-    let output = {};
-    output.id = question.querySelector(".id").value;
-    output.type = question.id;
-    output.text = question.querySelector(".text").value;
-    output.required = question.querySelector(".required").checked.toString();
-    if (question.id.includes("select")) {
-      output.options = [];
-      if (question.id.includes("image")) {
-        console.log("image");
-      } else {
-        const options = question.getElementsByTagName("div");
-        for (const option of options) {
-          const input = option.querySelector("input");
-          output.options.append(input.value);
+  const nameEl = document.querySelector("#name");
+  const name = nameEl.value;
+
+  if (name == "") {
+    window.alert("Make sure to name your questionnaire!");
+    return;
+  } else {
+    let data = {
+      name: name,
+      questions: []
+    };
+
+    const questions = document.querySelector(".questions").querySelectorAll("section");
+    for (const question of questions) {
+      let output = {
+        id: question.querySelector(".id").value,
+        type: question.id,
+        text: question.querySelector(".text").value,
+        required: question.querySelector(".required").checked.toString()
+      };
+      if (question.id.includes("select")) {
+        output.options = [];
+        if (question.id.includes("image")) {
+          console.log("image");
+        } else {
+          const options = question.getElementsByTagName("div");
+          for (const option of options) {
+            const input = option.querySelector("input");
+            output.options.append(input.value);
+          }
         }
       }
+      data.questions.push(output);
     }
-    data.questions.append(output);
   }
+
 }
 
-async function upload(edit) {
-  // get questions first
-  const data = {};
-  let url = '';
-  // if creating questionnaire
-  if (!edit) {
+async function upload() {
+  const data = getData();
+
+  if (data != null) {
+    // no need in getting the other bits of information needed,
+    // if there is no data to send
     const id = await getUuid();
     const email = sessionStorage.getItem("user-email");
     const jsonChoice = document.querySelector('input[name="jsonCheck"]:checked').value;
 
-    const data = getData();
+    const url = `/create?id=${id}&email=${email}&json=${jsonChoice}`;
+    let response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: data
+    });
+    if (response.ok) {
+      window.alert(`Your questionnaire ${await response.text()} has been uploaded.`);
+    } else {
+      window.alert("There has been an error. Please try again later.");
+    }
+  }
 
-    url = `/create?id=${id}&email=${email}&json=${json}`;
-  }
-  let response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: data
-  });
-  if (response.ok) {
-    window.alert(`Your questionnaire ${await response.text()} has been uploaded.`);
-  } else {
-    window.alert("There has been an error. Please try again later.");
-  }
 }
 
 function showQuestion(id) {
@@ -114,16 +113,12 @@ function deleteQ(event) {
 
 // Main Code
 window.onload = function() {
-  const buttons = document.querySelector(".buttons").children;
-  console.log(buttons);
+  const buttons = document.getElementsByTagName("button");
+
   // button 0 - add question button
   buttons[0].addEventListener("click", createQuestionInput);
-
   // button 1 - upload button
-  // using sessionStorage instead of localStorage to reduce amount of data
-  // left when session ended
-  // json parse turns strings into bool value
-  JSON.parse(sessionStorage.getItem("edit-mode")) ? edit(buttons[1]) : create(buttons[1]);
+  buttons[1].addEventListener("click", upload);
 
   const imageButtons = document.getElementsByTagName("picture");
 

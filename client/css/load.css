@@ -2,6 +2,13 @@
 [class$="required"]>p {
   color: red;
   font-size: 2em;
+  padding: 0;
+  border: 0;
+}
+
+h2 {
+  padding: 0;
+  border: 0;
 }
 
 /* Boxes to surround each question */
@@ -11,6 +18,10 @@ section {
   padding-bottom: 1em;
 }
 
+img {
+  max-height: 20%;
+}
+
 /* Finds section with a class that ends in "image"*/
 /* Hides checkboxes (can still click them) */
 section[class$="image"]>label>input {
@@ -18,7 +29,8 @@ section[class$="image"]>label>input {
 }
 
 /* Puts border around selected images */
-section>.selected>img {
+/* (& text boxes, if image doesn't exist) */
+section[class$="image"]>.selected {
   border: medium solid red;
 }
 

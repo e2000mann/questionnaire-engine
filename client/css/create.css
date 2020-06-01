@@ -14,4 +14,9 @@ img, source {
   max-width: 5em;
 }
 
-/* Responsive CSS */
+/* Boxes to surround each question */
+.questions>section {
+  border: solid;
+  margin-bottom: 1em;
+  padding-bottom: 1em;
+}
