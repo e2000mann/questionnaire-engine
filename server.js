@@ -111,9 +111,10 @@ function checkForResponses(req, res) {
 // for get /submit
 async function uploadResults(req, res) {
   const id = req.query.id;
+  console.log(req.body);
   const response = {
     date: new Date(),
-    answers: JSON.parse(req.query.answers)
+    answers: req.body
   };
 
   const query = {
@@ -125,12 +126,13 @@ async function uploadResults(req, res) {
     let result = await sendQuery(query, "one");
     // true = json; false = csv
     if (result == "t") {
-      uploadJson(id, response);
+      res.send(uploadJson(id, response));
     } else {
-      uploadCsv(id, response);
+      res.send(uploadCsv(id, response));
     }
   } catch (e) {
     console.log(e);
+    res.send(false);
   }
 }
 
@@ -154,6 +156,7 @@ function uploadJson(id, response) {
   }, function(err) {
     if (err) throw err;
     console.log("wrote to file");
+    return true;
   });
 }
 
@@ -167,6 +170,7 @@ function uploadCsv(id, response) {
   let output = [response.date, answersArray];
   fs.appendFile(csvLocation, output.toString(), function(err) {
     if (err) throw err;
+    return true;
   });
 }
 
@@ -203,8 +207,8 @@ async function uniqueName(name) {
 }
 
 async function addQuestionnaire(req, res) {
-  const data = JSON.parse(req.query.data);
-  const name = uniqueName(data.name);
+  const data = req.body;
+  const name = await uniqueName(data.name);
   console.log(name);
   data.name = name;
   console.log(data.name);
@@ -232,6 +236,7 @@ async function addQuestionnaire(req, res) {
     values: [id, name, userEmail, json]
   };
   await sendQuery(query, "none");
+  res.send(name);
 }
 
 
@@ -256,8 +261,8 @@ app.get('/load', getQuestionnaire);
 app.get('/checkForResponses', checkForResponses);
 
 // post requests (sending data)
-app.post('/submit', uploadResults);
-app.post('/create', addQuestionnaire);
+app.post('/submit', express.json(), uploadResults);
+app.post('/create', express.json(), addQuestionnaire);
 app.post('/edit', editQuestionnaire);
 
 app.listen(8080);

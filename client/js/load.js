@@ -119,9 +119,13 @@ async function submit() {
 
     const id = localStorage.getItem("questionnaire-id");
 
-    let url = `/submit?id=${id}&answers=${JSON.stringify(answers)}`;
+    let url = `/submit?id=${id}`;
     let response = await fetch(url, {
-      method: 'POST'
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(answers)
     });
     if (response.ok) {
       window.alert("Thanks for your participation!");

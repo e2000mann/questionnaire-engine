@@ -62,6 +62,11 @@ async function uploadJson() {
       confirmSubmission(data);
     });
 
+    const radioButtons = clone.querySelectorAll("input");
+    for (const radioButton of radioButtons) {
+      radioButton.name = "jsonCheck";
+    }
+
     const dest = document.querySelector(".create");
     dest.appendChild(clone);
 
@@ -70,14 +75,10 @@ async function uploadJson() {
 }
 
 async function confirmSubmission(data) {
-  const userInput = window.prompt("Do you want the responses in CSV or JSON?");
-  let jsonChoice = false;
-
-  if (userInput !== null) {
-    if (userInput.toLowerCase() == "json") {
-      jsonChoice = true;
-    }
-  }
+  console.log(data);
+  // get preferred response format
+  const jsonChoice = document.querySelector('input[name="jsonCheck"]:checked').value;
+  console.log(jsonChoice);
 
   // get email
   const email = sessionStorage.getItem("user-email");
@@ -85,12 +86,16 @@ async function confirmSubmission(data) {
   // todo: get this to work with images
 
   // upload to server & database
-  const url = `/create?data=${data}&email=${email}&json=${jsonChoice}`;
+  const url = `/create?email=${email}&json=${jsonChoice}`;
   let response = await fetch(url, {
-    method: 'POST'
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: data
   });
   if (response.ok) {
-    window.alert("Thanks for uploading a questionnaire!");
+    window.alert(`Your questionnaire ${await response.text()} has been uploaded.`);
   } else {
     window.alert("There has been an error. Please try again later.");
   }

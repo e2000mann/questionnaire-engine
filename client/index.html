@@ -52,10 +52,14 @@
 </template>
 <template id="createFromJSON">
   <p>Thanks! Just a few more things.</p>
-  <p>Store my responses in...</p>
-  <label><input type="radio" value="true" name="jsonCheck" checked>JSON</label>
-  <label><input type="radio" value="true" name="jsonCheck">CSV</label>
-  <button type="button" name="submit" id="submitButton">Submit</button>
+  <form>
+    <p>Store my responses in...</p>
+    <input type="radio" value="true" name="temp" id="json" checked>
+    <label for="json">JSON</label>
+    <input type="radio" value="true" name="temp" id="csv">
+    <label for="csv">CSV</label>
+  </form>
+  <button type="button" name="submitx" id="submitButton">Submit</button>
 </template>
 
 <template id="imageUpload">
