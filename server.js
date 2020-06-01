@@ -5,7 +5,10 @@
 const express = require('express');
 const fs = require('fs');
 const multer = require('multer');
-const upload = multer();
+const upload = multer({
+  dest: 'uploads'
+});
+const path = require('path');
 
 //Server
 const app = express();
@@ -241,8 +244,29 @@ async function addQuestionnaire(req, res) {
   res.send(name);
 }
 
-function addImages(req, res) {
-  return;
+async function addImages(req, res, next) {
+  console.log(req.body);
+  const id = req.body.id;
+  const name = req.body.name;
+  const images = req.files;
+
+  const imageDir = `client/questionnaires/${id}/${name}`;
+  console.log(imageDir);
+  await fs.mkdir(imageDir, {
+    recursive: true
+  }, function(err) {
+    if (err) throw err;
+  });
+  for (let i = 0; i < images.length; i++) {
+    const image = images[i];
+    console.log(image);
+    const newPath = `${imageDir}/${image.originalname}`;
+    await fs.rename(image.path, newPath, (err) => {
+      if (err) throw err;
+      console.log('Rename complete!');
+    });
+  }
+  res.send(true);
 }
 
 
@@ -274,7 +298,7 @@ app.get('/uuid', (req, res) => {
 app.post('/submit', express.json(), uploadResults);
 
 app.post('/create', express.json(), addQuestionnaire);
-app.post('/images', upload.array('images'), addImages);
+app.post('/images', upload.any(), addImages);
 
 app.post('/edit', editQuestionnaire);
 

@@ -15,8 +15,8 @@ Last updated: 28/01/20
   - [x] that serves the client application
   - [-] that uses a json file for structuring the questionnaire
     - [x] works for basic questions
-    - [ ] works for optional questions
-      - [ ] images (works but can't be uploaded properly)
+    - [x] works for optional questions
+      - [x] images
       - [x] likert scales
     - [x] works for required questions
   - [x] that stores the responses submitted through API

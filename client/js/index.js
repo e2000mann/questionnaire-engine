@@ -99,25 +99,50 @@ async function confirmSubmission(data) {
 
   if (imageSections.length > 0) {
     console.log("images");
+    for (const imageSection of imageSections) {
+      const payload = new FormData();
+      payload.append('id', id);
+      payload.append('name', imageSection.id);
+
+      const images = imageSection.querySelector("input");
+      console.log(images.files);
+      for (const file of images.files) {
+        payload.append('images[]', file);
+      }
+
+      const response = await fetch('/images', {
+        method: 'POST',
+        body: payload
+      });
+
+      if (response.ok) {
+        console.log(await response.json());
+      } else {
+        console.log("error sending images", response);
+      }
+    }
+    uploadQuestionnaire(data, id, email, jsonChoice);
   } else {
     console.log("no images");
-    // upload to server & database
-    const url = `/create?id=${id}&email=${email}&json=${jsonChoice}`;
-    let response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: data
-    });
-    if (response.ok) {
-      window.alert(`Your questionnaire ${await response.text()} has been uploaded.`);
-    } else {
-      window.alert("There has been an error. Please try again later.");
-    }
+    uploadQuestionnaire(data, id, email, jsonChoice);
   }
+}
 
-
+async function uploadQuestionnaire(data, id, email, jsonChoice) {
+  // upload to server & database
+  const url = `/create?id=${id}&email=${email}&json=${jsonChoice}`;
+  let response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: data
+  });
+  if (response.ok) {
+    window.alert(`Your questionnaire ${await response.text()} has been uploaded.`);
+  } else {
+    window.alert("There has been an error. Please try again later.");
+  }
 }
 
 function checkForImages(questions, dest) {
